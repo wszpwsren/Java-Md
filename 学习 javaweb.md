@@ -889,6 +889,7 @@ bootstrap基础文件
 
 <h1>你好，世界！</h1>
 <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+
 <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
 <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
@@ -1058,8 +1059,43 @@ bootstrap基础文件
 
 ​	
 
-解析
+解析： 操作XML文档，将文档中的数据读取到内存中
+	操作XML文档
+		解析：读取
+		写入：保存
+	解析方式：
+		DOM：DOM树
+		SAX：逐行读取
+	XML常见解析器
+		JAXP：sun公司，支持DOM，SAX
+		DOM4J：解析器
+		JSOUP：Java的html解析去，可解析XML，DOM
+		PULL：Android内置，SAX
+	Jsoup
+		入门：
+			导入jar包
+			获取Document对象
+			获取对应标签Element对象
+			获取数据
 
+```
+public static void main(String[] args) throws IOException {
+        //根据xml文档获取document
+        String path = JsoupDemo.class.getClassLoader().getResource("schema/student.xml").getPath();
+        //解析xml文档，加载进内存，获取dom树->Document
+        Document doc = Jsoup.parse(new File(path), "utf-8");
+        Elements ele = doc.getElementsByTag("name");
+        Element element = ele.get(0);
+        String text = element.text();
+        System.out.println(text);
+    }
+```
+
+​		常见对象：
+​			Jsoup：工具类，可以解析HTML或XML文档，返回DOcument
+​			Document对象：文档对象，DOM树
+​			Elements对象：元素Element的集合，可当作Arraylist<Element>使用
+			Element对象：元素对象
 
 
 
