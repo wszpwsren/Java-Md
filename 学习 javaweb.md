@@ -1093,9 +1093,52 @@ public static void main(String[] args) throws IOException {
 
 ​		常见对象：
 ​			Jsoup：工具类，可以解析HTML或XML文档，返回DOcument
+​				parse：解析html或xml文档，返回document
+​					parse（File in STring charset charsetname）
+​					parse（string html）
+​					parse（Url url ，int timeoutmillis）
 ​			Document对象：文档对象，DOM树
+​					获取element对象
+​						getElemenetByid(String idvalue)根据id value
+​						getElementsByTag（String Tagname）
+​						getElementsByAttribute（String key）
+​						getElementsByAttributeValue(String key string v)
 ​			Elements对象：元素Element的集合，可当作Arraylist<Element>使用
-			Element对象：元素对象
+​			Element对象：元素对象
+​				获取子对象
+​					getElemenetByid(String idvalue)根据id value
+​						getElementsByTag（String Tagname）
+​						getElementsByAttribute（String key）
+​						getElementsByAttributeValue(String key string v)
+​				获取属性值
+​					String attr（String key）根据属性的名称获取值
+​				获取文本
+​					string text（）：获取子标签的纯文本内容
+​					string html（）：获取inner html 标签体的所有内容，包括子标签的的标签内容及文本内容
+​			Node对象：节点对象
+​				父类对象
+​				方法
+​					childnode
+​					
+
+​	快捷查询方式:
+​		selector：选择器
+​			使用的方法：
+​				elements select（String sccQuery）
+​					语法：a[href] 参考Select类中定义的语法
+
+```
+Elements select1 = doc.select("student[number='heima_0001']");
+```
+```
+Elements select1 = doc.select("student[number='heima_0001']>age");
+```
+
+​		xPath：
+
+​			使用Jsoup的Xpath需要额外导入jar
+​			
+
 
 
 
