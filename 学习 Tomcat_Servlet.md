@@ -235,21 +235,47 @@ Servlet概念：server applet，运行在服务器端的小程序
 							ServletIputStream getInputStream（）
 						从流对象中拿出数据
 							
-			其他功能
-				1、获取请求参数通用方式：// get/post通用
-					String getParameter（String name）
-						根据参数名称获取参数值
-					String[] getParametervalues（String name）
-						根据参数名获取参数值的数组
-					enumeration<String> getParametersNames（）
-						获取所有请求的参数名称
-					Map<String,String[]> getParameterMap()
-						获取所有参数的Map集合
-				2、请求转发
-				3、共享数据
-				4、获取ServletContext对象
-		
-	响应消息数据格式：
+
+​		其他功能
+​			1、获取请求参数通用方式：// get/post通用
+​				String getParameter（String name）
+​					根据参数名称获取参数值
+​				String[] getParametervalues（String name）
+​					根据参数名获取参数值的数组
+​				enumeration<String> getParametersNames（）
+​					获取所有请求的参数名称
+​				Map<String,String[]> getParameterMap()
+​					获取所有参数的Map集合
+​				中文乱码问题：
+​					get方式：tomcat8 解决了get方式乱码
+​					post方式：会乱码
+​						解决：设置流的编码
+​						request.setCharacterEncoding("utf-8")
+​			2、请求转发:一种在服务器内部的资源跳转方式
+​				步骤
+​					通过方法：RequestDispatcher getResquestDispatcher（String path）获取请求转发器对象
+​					使用RequestDispatcher对象来转发：forward（ServletRequest request ServletResponse response）
+​					
+
+```
+request.getResquestDispatcher（"/Demo2"）.forward(request,response)
+```
+				特点：
+					1、浏览器地址栏路径不变
+					2、只能访问内部服务器资源
+					3、转发是一次请求
+​			3、共享数据
+				域对象：一个有作用范围的对象，可以在范围内共享数据
+				request域：代表一次请求，一般用于请求转发的多个资源中共享
+				方法：
+					1、setAttribute（String name，Object obj）存储数据
+					2、Object getAttibute（String name）：通过键获取值
+					3、removeAttribute（String name）：通过键移除值
+​			4、获取ServletContext对象
+				ServletContext getServletContext（）；
+​	
+响应消息数据格式：
+
 ## Request
 
 
