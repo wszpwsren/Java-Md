@@ -276,12 +276,78 @@ request.getResquestDispatcher（"/Demo2"）.forward(request,response)
 ​	
 
 ## 示例
+	1、创建项目，导入html页面，druid配置文件，jar包
+	2、创建数据库环境
+	3、创建包domain，创建类User
+	4、创建包dao，创建类UserDao，创建login方法
+	5、编写servlet.LoginServlet类
+	6、login.html中form表单的action路径的写法
+		虚拟目录+servlet的资源路径
+		//servlet使用资源路径
+	7、BeanUtils工具类完成数据封装
+		JavaBean：标准的Java类
+			要求：
+				类必须被public修饰
+				必须提供空参的构造器
+				成员变量必须使用private修饰
+				必须提供公共setter和getter方法
+				//放在domain下
+			功能：封装数据
+		概念：
+			成员变量
+				类内直接定义的变量
+			属性//大多数和成员变量一样
+				setter和getter方法截取后的产物
+					getterUsername（）--》Username--》username
+		方法：
+			setProperties（）设置属性
+			getProperties（）获取属性
+			populate（）封装
 	
+	Map<String, String[]> parameterMap = request.getParameterMap();
+	    User loginUser = new User();
+	    try {
+	        BeanUtils.populate(loginUser,parameterMap);
 
 响应消息数据格式：
+	数据格式：
+		响应行
+			协议/版本 响应状态码 状态码描述
+			响应状态码
+			分类：
+				1xx：服务器接收客户端消息，但没有完成，等待一段时间，发
+                2xx：成功发
+                3xx：302重定向 304资源缓存
+                4xx：客户端错误 
+                	404路径没有对应资源 
+                	405请求方式没有对应方法
+                5xx：服务端错误 500服务器内部异常
+		响应头
+			格式：头名称：值
+			Content-type:服务器告诉客户端本次响应体数据格式及编码格式
+			Content-disposition:如何打开响应体数据，
+				默认in-line，//在当前页面打开
+				attachment:以附件形式打开
+		响应空行
+		响应体
 
-## Request
-
+## Response
+	功能：设置响应消息
+		设置响应行
+			格式：HTTP/1.1 200 ok
+			设置状态吗 setStatus（int sc）
+		设置响应头
+			setHeader（String name String value）
+		设置响应体
+			使用流
+			步骤：
+				获取输出流
+					字符输出流
+						PrintWritter getWritter（）
+					字节输出流
+						ServletOupputStream getOutputStream()
+				使用输出流
+				
 
 
 
