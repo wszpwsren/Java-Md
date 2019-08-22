@@ -265,15 +265,19 @@ request.getResquestDispatcher（"/Demo2"）.forward(request,response)
 					2、只能访问内部服务器资源
 					3、转发是一次请求
 ​			3、共享数据
-				域对象：一个有作用范围的对象，可以在范围内共享数据
-				request域：代表一次请求，一般用于请求转发的多个资源中共享
-				方法：
-					1、setAttribute（String name，Object obj）存储数据
-					2、Object getAttibute（String name）：通过键获取值
-					3、removeAttribute（String name）：通过键移除值
+​				域对象：一个有作用范围的对象，可以在范围内共享数据
+​				request域：代表一次请求，一般用于请求转发的多个资源中共享
+​				方法：
+​					1、setAttribute（String name，Object obj）存储数据
+​					2、Object getAttibute（String name）：通过键获取值
+​					3、removeAttribute（String name）：通过键移除值
 ​			4、获取ServletContext对象
-				ServletContext getServletContext（）；
+​				ServletContext getServletContext（）；
 ​	
+
+## 示例
+	
+
 响应消息数据格式：
 
 ## Request
