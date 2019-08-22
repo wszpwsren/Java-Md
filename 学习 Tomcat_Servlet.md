@@ -332,24 +332,56 @@ request.getResquestDispatcher（"/Demo2"）.forward(request,response)
 		响应体
 
 ## Response
-	功能：设置响应消息
-		设置响应行
-			格式：HTTP/1.1 200 ok
-			设置状态吗 setStatus（int sc）
-		设置响应头
-			setHeader（String name String value）
-		设置响应体
-			使用流
-			步骤：
-				获取输出流
-					字符输出流
-						PrintWritter getWritter（）
-					字节输出流
-						ServletOupputStream getOutputStream()
-				使用输出流
-				
+功能：设置响应消息
+	设置响应行
+		格式：HTTP/1.1 200 ok
+		设置状态吗 setStatus（int sc）
+	设置响应头
+		setHeader（String name String value）
+	设置响应体
+		使用流
+		步骤：
+			获取输出流
+				字符输出流
+					PrintWritter getWritter（）
+				字节输出流
+					ServletOupputStream getOutputStream()
+			使用输出流
+完成重定向
 
+```
+response.setStatus(302);
+response.setHeader("location","/test/ServletResponseD2");
+//简单的重定向方式
+response.senRedirect("/test/ServletResponseD2")
+```
 
+	重定向特点：
+		转发：地址栏路径不变、
+			只能访问当前服务器下、
+			一次请求，可以使用request对象共享数据
+		重定向：
+			地址栏变化，可以访问其他站点资源，两次请求，不能共享数据
+	路径写法：
+		1、路径分类
+			1、相对路径：不确定资源
+				以.开头的路径
+					使用相对路径，需要找当前资源和目标资源的相对位置关系
+					./当前目录 ../上一级目录
+				动态获取虚拟目录
+				String contextPath = request.getContextPath();
+				response.sendRedirect(contextPath+"/demo")
+			2、绝对路径：通过绝对路径可以确定唯一资源
+				以/开头的路径
+					使用绝对路径，
+				[[规则]]：判断定义的路径是给谁用的？
+					给客户端浏览器使用的（客户端展现）：需要加虚拟目录
+						虚拟目录动态获取// .getContextPath
+					给服务器使用（服务端展现）：不需要加虚拟目录
+						//转发
+传字符
+传字节
+验证码
 
 
 
