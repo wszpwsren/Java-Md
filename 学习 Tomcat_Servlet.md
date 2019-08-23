@@ -379,14 +379,51 @@ response.senRedirect("/test/ServletResponseD2")
 						虚拟目录动态获取// .getContextPath
 					给服务器使用（服务端展现）：不需要加虚拟目录
 						//转发
-传字符
-传字节
-验证码
+	传字符
+	    获取字符输出流
+	    输出数据
+	    乱码：
+	        设置流的默认编码//可以省略
+	        response.setCharacterEncoding("UTF-8")
+	        发送编码方式
+	        response.setHeader("content-type","text/html;charset=utf-8");
+	        简单形式：
+	        response.setContentType("text/html;charset=utf-8")
+	传字节
+	    获取字节输出流
+	    ServletOutputStream sos = respose.getOutputStream();
+	    输出数据
+	    sos.write("heelo".getBytes())
+	        //字节流/字符流并不是由我们获取的，所以并不需要刷新流（不考虑输出）
+	验证码
+	    new date（）.getdate
+ServletContext对象
+	概念：代表整个Web应用，可以和程序的容器（Tomcat）来通信
+	获取：通过request获取
+		req.getServletContext
+		通过httpServlet获取
+		this.getServletContext
+	功能：	
+		获取MIME类型：通讯过程中的一种文件数据类型
+			格式：大类型/小类型 text/html  image/jpeg
+				//tomcat下web.xml可以查询类型对应
+			获取：String getMimaType（sring file）
 
+​	是一个域对象，用于共享数据
+​		setAttribute（String name ，Object value）
+​		getAttribute（String name）
+​		removeAttribute（String name）
+​		ServletContext的范围：可以共享所以用户所有请求的数据
+​		获取文件的真实路径（服务器）
+​			方法
 
+```
+String ServletContext.getRealPath("/path")
+			//web目录下资源访问
+File file = new 		 File(servletContext.getRealPath("/druid.properties"));
 
-
-
+```
+	
 
 
 
