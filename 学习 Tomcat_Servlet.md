@@ -441,9 +441,71 @@ File file = new 		 File(servletContext.getRealPath("/druid.properties"));
 				获取不同的浏览器版本信息
 				获取编码方式
 
-
-
-
+# 会话技术
+	会话：一次会话中包含多次请求和响应
+		一次会话：浏览器第一次给服务器资源发送请求，会话建立，直到一方断开
+		功能：在一次会话中的多次请求中，共享数据
+		方式：
+			客户端会话技术：Cookie
+			服务器端会话技术：Session
+Cookie
+	客户端会话技术
+	入门：
+		使用步骤：
+			创建Cookie对象，绑定数据
+				new Cookie(String naem ,String value)
+			发送Cookie对象
+				httpServlet
+				response.addCookie(cookie ck)
+			获取Cookie对象，拿到数据
+				Cookie[] request.getCookies()
+		实现原理
+        	基于响应头set-cookie和请求头cookie实现
+        cookie细节
+        	持久化保存
+        		//浏览器关闭cookie销毁
+        		setMaxAge（int seconds）
+        			整数：cookie的存活时间
+        			负数：默认
+        			0：删除cookie信息
+        	tomcat 8 之后，cookie支持存储中文数据
+			cookie的共享范围
+				默认情况下cookie不能共享
+                    setPath（String path）：设置cookie共享范围
+                        default：当前虚拟目录// /test
+                        更大：设置为 / 
+				不同的tomcat服务器共享
+					setDomain（String path）:
+						如果设置一级域名相同，那么多个服务器间共享cookie
+							setDomain（“.baidu.com”）
+		cookie特点及作用
+                cookie数据存贮在客户端
+                浏览器对单个cokie大小有限制（4kb），
+                同一域名下cookie总数量有限制（20）
+			作用：
+				cookie一般存储少量不敏感数据
+				不登陆的情况下完成用户验证及页面设置
+Session
+## Jsp入门
+概念：Java Server Pages 服务端页面
+	一个特殊的页面，既可以直接定义html标签，又可以定义java代码
+    	用于简化书写
+	jsp原理：
+		服务器解析请求消息，寻找jsp资源
+		将jsp转换为.java文件
+		编译.java文件，生成.class文件
+		由.class文件提供访问
+			//本质是一个Servlet
+	jsp脚本：
+		jsp声明java代码的方式
+			1、<% %>
+				定义的代码，在service方法中，限制等同service
+			2、<%! %>
+				定义的代码，在jsp转换后的java类的成员位置（成员方法，静态代码块等）
+			3、<%= %>
+				输出语句，直接输出到页面上
+			
+	jsp内置对象
 
 
 
