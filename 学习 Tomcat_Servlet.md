@@ -421,9 +421,25 @@ ServletContext对象
 String ServletContext.getRealPath("/path")
 			//web目录下资源访问
 File file = new 		 File(servletContext.getRealPath("/druid.properties"));
-
+			//不同路径下访问的path也不同
 ```
-	
+	下载实例：
+		分析：
+			超链接指向的资源如果能被解析，则展示
+			任何资源都要下载提示框
+			使用响应头设置打开方式
+				content-disposition:attachment;filename=xxx
+					//以附件形式打开
+		步骤：定义页面，编辑超链接，指向Servlet，传递资源名称filename
+			定义servlet
+				获取文件名称
+				使用字节输入流加载文件进内存
+				指定response的header设置为附件形式打开
+				将数据写出到response输出流
+		问题：
+			中文文件名：
+				获取不同的浏览器版本信息
+				获取编码方式
 
 
 
