@@ -506,6 +506,60 @@ Session
 				输出语句，直接输出到页面上
 			
 	jsp内置对象
+		在jsp页面中，不需要获取和创建，可以直接使用的对象
+		内置对象共9个
+			out方法按顺序输出
+			response.getwriter永远在out前输出
+	jsp代码可以截断，中间可以插入html代码
+	<% xxx(){ %>  html  <% } %>
+## Session：
+	概念：服务器会话技术，在一次绘画的多次请求间共享数据，将数据保存在服务器端的对象中
+	入门：
+		HttpSession对象
+			Object getAttribute（String name）
+			void setAttribute（String name ，Object value）
+	原理：
+		Session是依赖于Cookie的
+			响应头设置set-cookie：jsessionid=xxxxxxxxx
+			请求头cookie↑
+	细节：
+		客户端关闭后，session不为同一个
+			如果需要相同，那么创建Cookie，键为JSESSIONID，设置存活时间
+			Cookie c = new Cookie("JSESSIONID"，session.getid());
+		服务器端关闭后，session被销毁
+			需要保证数据不丢失
+				Session钝化（序列化）
+					服务器正常关闭前，将session对象序列化到硬盘上
+				Session活化（反序列化）
+					在服务器启动后，将文件转化为内存对象
+				//tomcat已经实现该功能 // /work
+				//IDEA可以实现钝化，但不能活化
+		Session销毁时间
+			服务器关闭
+			Session对象调用invalidate（）
+			默认失效时间 30分钟
+				tomcat/conf/web.xml-》session-config-》s-timeout
+		Session的特点
+			session用于存储一次会话的多次请求间的数据，存在服务器端
+			session可以存储任意类型，任意大小的数据
+			
+			session与cookie的区别
+				服务器/客户端
+				没有大小限制/有
+				数据安全/不安全
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
