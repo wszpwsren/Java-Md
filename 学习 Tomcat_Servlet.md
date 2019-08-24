@@ -505,48 +505,245 @@ Session
 			3、<%= %>
 				输出语句，直接输出到页面上
 			
-	jsp内置对象
-		在jsp页面中，不需要获取和创建，可以直接使用的对象
-		内置对象共9个
-			out方法按顺序输出
-			response.getwriter永远在out前输出
-	jsp代码可以截断，中间可以插入html代码
-	<% xxx(){ %>  html  <% } %>
+
+jsp内置对象
+	在jsp页面中，不需要获取和创建，可以直接使用的对象
+	内置对象共9个
+		out方法按顺序输出
+		response.getwriter永远在out前输出
+jsp代码可以截断，中间可以插入html代码
+
+```
+<% xxx(){ %>  html  <% } %>
+```
+
+
+
 ## Session：
-	概念：服务器会话技术，在一次绘画的多次请求间共享数据，将数据保存在服务器端的对象中
-	入门：
-		HttpSession对象
-			Object getAttribute（String name）
-			void setAttribute（String name ，Object value）
-	原理：
-		Session是依赖于Cookie的
-			响应头设置set-cookie：jsessionid=xxxxxxxxx
-			请求头cookie↑
-	细节：
-		客户端关闭后，session不为同一个
-			如果需要相同，那么创建Cookie，键为JSESSIONID，设置存活时间
-			Cookie c = new Cookie("JSESSIONID"，session.getid());
-		服务器端关闭后，session被销毁
-			需要保证数据不丢失
-				Session钝化（序列化）
-					服务器正常关闭前，将session对象序列化到硬盘上
-				Session活化（反序列化）
-					在服务器启动后，将文件转化为内存对象
-				//tomcat已经实现该功能 // /work
-				//IDEA可以实现钝化，但不能活化
-		Session销毁时间
-			服务器关闭
-			Session对象调用invalidate（）
-			默认失效时间 30分钟
-				tomcat/conf/web.xml-》session-config-》s-timeout
-		Session的特点
-			session用于存储一次会话的多次请求间的数据，存在服务器端
-			session可以存储任意类型，任意大小的数据
-			
-			session与cookie的区别
-				服务器/客户端
-				没有大小限制/有
-				数据安全/不安全
+概念：服务器会话技术，在一次绘画的多次请求间共享数据，将数据保存在服务器端的对象中
+入门：
+	HttpSession对象
+		Object getAttribute（String name）
+		void setAttribute（String name ，Object value）
+原理：
+	Session是依赖于Cookie的
+		响应头设置set-cookie：jsessionid=xxxxxxxxx
+		请求头cookie↑
+细节：
+	客户端关闭后，session不为同一个
+		如果需要相同，那么创建Cookie，键为JSESSIONID，设置存活时间
+		Cookie c = new Cookie("JSESSIONID"，session.getid());
+	服务器端关闭后，session被销毁
+		需要保证数据不丢失
+			Session钝化（序列化）
+				服务器正常关闭前，将session对象序列化到硬盘上
+			Session活化（反序列化）
+				在服务器启动后，将文件转化为内存对象
+			//tomcat已经实现该功能 // /work
+			//IDEA可以实现钝化，但不能活化
+	Session销毁时间
+		服务器关闭
+		Session对象调用invalidate（）
+		默认失效时间 30分钟
+			tomcat/conf/web.xml-》session-config-》s-timeout
+	Session的特点
+		session用于存储一次会话的多次请求间的数据，存在服务器端
+		session可以存储任意类型，任意大小的数据
+		
+		session与cookie的区别
+			服务器/客户端
+			没有大小限制/有
+			数据安全/不安全
+
+## JSP
+指令
+	作用：用于配置JSP页面，导入资源文件
+	格式：
+		<%@ 指令名称 属性名1=属性值1 属性2=属性值2 %>
+	分类：
+		page
+			配置JSP页面
+				contentType：等同于response。setContentType（）
+					设置响应体的MIME类型及字符集
+					设置当前页面的编码 //=pageencoding
+					buffer 字符流缓冲
+					import 导包
+					errorPage/isErrorPage：跳转错误页面/是错误页面
+						//isErrorPage =“true”
+						//exception.getMessage()
+		include
+			页面包含的。导入页面的资源文件,用于导入其他页面，简化代码
+		taglib
+			导入资源//导入标签库
+			<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+				prefix 前缀，自定义// jstl/core设为c
+				
+注释
+	html注释<!-- -->只能注释html，会response
+	jsp注释<%-- --%> 可以注释所有，不会发送
+内置对象
+	jsp中不需要创建，直接使用
+	变量名					真实类型				作用域
+	pageContext			PageContext				当前页面
+		//获取其他内置对象
+	request				HttpServletRequest		一次请求访问多个资源
+	session				HttpSession				一次会话多个请求
+	application			ServletContext			用户间共享数据
+
+​	response			HttpServletResponse		响应对象
+​	page //this			page					当前Servlet//页面
+​	out					JspWriter				输出
+​	config				ServletConfig			Servlet配置
+​	exception			Throwable				异常
+
+## MVC开发模式
+    servlet//编写困难->jsp//阅读困难->MVC
+    MVC：
+        M：model，模式 JAVABEAN
+            完成具体的业务操作 如 查询数据库，封装对象
+        V：view，视图 JSP
+            展示数据
+        C，controler，控制器 Servlet
+            获取客户端输入
+            调用模型
+            将数据交给视图展示
+        耦合度低，容易维护，方便分工
+        重用性高
+        没有明确定义，需要设计，不适合小型，增加结构复杂程度
+
+## EL表达式
+	Expression Language 表达式语言
+	替换和简化jjsp中java代码的编写
+	语法：${表达式}
+	JSP默认支持EL
+
+```
+	<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="true" %>
+	忽略EL
+	\${false}
+	单个忽略EL
+
+```
+功能：
+	运算：
+		运算符
+			算术运算符 +-*/%
+			比较运算符 <>=<=>=!=
+			逻辑运算符 && || ！
+			空运算符 empty
+				用于判断字符串、集合、数组的对象为null长度为0
+				${empty list}
+				${! empty list}
+					表示判断是否不为null且长度不为0
+		隐式对象：
+			EL表达式中有11个隐式对象
+			pageContext：
+				获取JSP其他8个内置对象
+				${pageContext.request}
+				${pageContext.request.contextPath}
+					jsp页面动态的获取虚拟目录
+				
+	获取值
+		el表达式只能从域对象中获取值
+		语法：
+			${域名称.键名称}
+				从指定域获取指定键值
+					pageScope  -->pageContext
+					requestScope -->requrest
+					sessionScope -->session
+					applicationScope -->application
+						//servletContext
+					${requestScope.name}
+​						//如果没有获取到值，那么打印空字符串
+​						[[[默认调用对象的toString]]]
+​				${键名}
+​					依次从最小的域中查找是否有该键对应的值，直到找到为止
+​				获取对象，list集合，map集合的值
+​					对象
+​						通过的是对象的属性来获取
+​							setter或getter方法去掉set/get，首字母小写
+​						对象的属性获取
+​							${requestScope.u.username}获取username属性
+​						本质上是调用getter方法获取
+​							//逻辑视图：
+​								//为了页面显示而编写的java代码
+​					List集合${域名称.键名[索引]}
+ 						${list}
+​    					${list[0]}<br/>
+​					Map集合${域名称.域键名.map键名称}
+​						${map.age1}<Br/>
+​    					${map["age1"]}<br/>
+​					
+
+## JSTL标签
+JSTL：JavaServer Pages Tag Library JSP标准标签库
+	Apache开源免费jsp标签
+作用：用于简化和替换jsp页面上的java代码
+使用步骤:
+	导入jstljar包
+	引入标签库 taglib： <%@ taglib%>
+	使用标签
+常用jstl标签
+	if				：if
+		属性
+			test：必须属性，接收bool表达式
+				如果表达式为true，则显示if标签体内容
+				如果为false，则不显示
+				一般情况下，test属性会结合el表达式一起使用
+				if标签没有else
+
+```jsp
+<c:if test="true">    
+DD
+</c:if>
+```
+
+​	choose		：switch
+​		域中存储数字
+​		使用choose标签取出数字
+​		使用when标签做case
+​		使用otherise标签做default
+
+```
+ <c:choose>
+        <c:when test="${format.equals(Sat)}">星期六</c:when>
+        <c:otherwise>输出有误</c:otherwise>
+ </c:choose>
+```
+
+​	foreach		：for
+​		fori
+​			属性：
+​				begin：开始值
+​				end：结束值
+​				var：变量
+​				strp：步长
+​				varStatus：循环状态对象
+​					varStatus="s"
+​					s.index：容器元素的索引，从0开始
+​					s.count:循环次数
+
+```
+<c:forEach begin="1" end="10" var="i" step="1">
+        ${i}<br/>
+    </c:forEach>
+```
+
+​		forEach
+​			属性：
+​				items：容器对象
+​				var：容器中元素的临时变量
+​				varStatus：循环状态对象
+
+```
+<tr bgcolor="${(s.count)%2==1?"red":"green"}">
+```
+
+
+
+## 三层架构
+
+
 
 
 
