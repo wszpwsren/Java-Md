@@ -200,10 +200,11 @@ $("#div1")JQuery对象
 						* element：就是集合中的每一个元素对象
 	
 						* this：集合中的每一个元素对象
-				2. 回调函数返回值：
+				2. 回调函数返回值(用于控制循环体)：
 					* true:如果当前function返回为false，则结束循环(break)。
 					* false:如果当前function返回为true，则结束本次循环，继续下次循环(continue)
 			2. $.each(object, [callback])
+				$.each(citys,function(){}),其余同上
 			3. for..of: jquery 3.0 版本之后提供的方式
 				for(元素对象 of 容器对象)
 		
@@ -214,6 +215,9 @@ $("#div1")JQuery对象
 				* 表单对象.submit();//让表单提交
 		2. on绑定事件/off解除绑定
 			* jq对象.on("事件名称",回调函数)
+				//让文本输入框获取焦点
+	            $("#leftName").focus();
+	            //表单对象.submit（）；表单提交
 			* jq对象.off("事件名称")
 				* 如果off方法不传递任何参数，则将组件上的所有事件全部解绑
 		3. 事件切换：toggle
@@ -270,23 +274,23 @@ $("#div1")JQuery对象
 
 ​			
 ​			
-			    </script>
-			</head>
-			<body>
-			<!-- 整体的DIV -->
-			<div>
-			    <!-- 广告DIV -->
-			    <div id="ad" style="display: none;">
-			        <img style="width:100%" src="../img/adv.jpg" />
-			    </div>
-			
-			    <!-- 下方正文部分 -->
-			    <div id="content">
-			        正文部分
-			    </div>
-			</div>
-			</body>
-			</html>
+​			    </script>
+​			</head>
+​			<body>
+​			<!-- 整体的DIV -->
+​			<div>
+​			    <!-- 广告DIV -->
+​			    <div id="ad" style="display: none;">
+​			        <img style="width:100%" src="../img/adv.jpg" />
+​			    </div>
+​			
+​			    <!-- 下方正文部分 -->
+​			    <div id="content">
+​			        正文部分
+​			    </div>
+​			</div>
+​			</body>
+​			</html>
 
 
 
@@ -310,74 +314,74 @@ $("#div1")JQuery对象
 
 
 ​			
-			                2. 给结束按钮绑定单击事件
-			                    1.1 停止定时器
-			                    1.2 给大相框设置src属性
-			
-			         */
-			        var imgs = ["../img/man00.jpg",
-			                    "../img/man01.jpg",
-			                    "../img/man02.jpg",
-			                    "../img/man03.jpg",
-			                    "../img/man04.jpg",
-			                    "../img/man05.jpg",
-			                    "../img/man06.jpg",
-			                    ];
-			        var startId;//开始定时器的id
-			        var index;//随机角标
-			        $(function () {
-			            //处理按钮是否可以使用的效果
-			            $("#startID").prop("disabled",false);
-			            $("#stopID").prop("disabled",true);
+​			                2. 给结束按钮绑定单击事件
+​			                    1.1 停止定时器
+​			                    1.2 给大相框设置src属性
+​			
+​			         */
+​			        var imgs = ["../img/man00.jpg",
+​			                    "../img/man01.jpg",
+​			                    "../img/man02.jpg",
+​			                    "../img/man03.jpg",
+​			                    "../img/man04.jpg",
+​			                    "../img/man05.jpg",
+​			                    "../img/man06.jpg",
+​			                    ];
+​			        var startId;//开始定时器的id
+​			        var index;//随机角标
+​			        $(function () {
+​			            //处理按钮是否可以使用的效果
+​			            $("#startID").prop("disabled",false);
+​			            $("#stopID").prop("disabled",true);
 
 
 ​			
-			           //1. 给开始按钮绑定单击事件
-			            $("#startID").click(function () {
-			                // 1.1 定义循环定时器 20毫秒执行一次
-			                startId = setInterval(function () {
-			                    //处理按钮是否可以使用的效果
-			                    $("#startID").prop("disabled",true);
-			                    $("#stopID").prop("disabled",false);
+​			           //1. 给开始按钮绑定单击事件
+​			            $("#startID").click(function () {
+​			                // 1.1 定义循环定时器 20毫秒执行一次
+​			                startId = setInterval(function () {
+​			                    //处理按钮是否可以使用的效果
+​			                    $("#startID").prop("disabled",true);
+​			                    $("#stopID").prop("disabled",false);
 
 
 ​			
-			                    //1.2生成随机角标 0-6
-			                    index = Math.floor(Math.random() * 7);//0.000--0.999 --> * 7 --> 0.0-----6.9999
-			                    //1.3设置小相框的src属性
-			                    $("#img1ID").prop("src",imgs[index]);
-			
-			                },20);
-			            });
+​			                    //1.2生成随机角标 0-6
+​			                    index = Math.floor(Math.random() * 7);//0.000--0.999 --> * 7 --> 0.0-----6.9999
+​			                    //1.3设置小相框的src属性
+​			                    $("#img1ID").prop("src",imgs[index]);
+​			
+​			                },20);
+​			            });
 
 
 ​			
-			            //2. 给结束按钮绑定单击事件
-			            $("#stopID").click(function () {
-			                //处理按钮是否可以使用的效果
-			                $("#startID").prop("disabled",false);
-			                $("#stopID").prop("disabled",true);
+​			            //2. 给结束按钮绑定单击事件
+​			            $("#stopID").click(function () {
+​			                //处理按钮是否可以使用的效果
+​			                $("#startID").prop("disabled",false);
+​			                $("#stopID").prop("disabled",true);
 
 
 ​			
-			               // 1.1 停止定时器
-			                clearInterval(startId);
-			               // 1.2 给大相框设置src属性
-			                $("#img2ID").prop("src",imgs[index]).hide();
-			                //显示1秒之后
-			                $("#img2ID").show(1000);
-			            });
-			        });
+​			               // 1.1 停止定时器
+​			                clearInterval(startId);
+​			               // 1.2 给大相框设置src属性
+​			                $("#img2ID").prop("src",imgs[index]).hide();
+​			                //显示1秒之后
+​			                $("#img2ID").show(1000);
+​			            });
+​			        });
 
 
 ​			
 ​			
 ​			
-			    </script>
-			
-			</head>
-			<body>
-			
+​			    </script>
+​			
+​			</head>
+​			<body>
+​			
 			<!-- 小像框 -->
 			<div style="border-style:dotted;width:160px;height:100px">
 			    <img id="img1ID" src="../img/man00.jpg" style="width:160px;height:100px"/>
@@ -403,16 +407,36 @@ $("#div1")JQuery对象
 			        value="点击停止"
 			        style="width:150px;height:150px;font-size:22px">
 
+​			</body>
+​			</html>
+​	
 
-​			
-			</body>
-			</html>
-	
-	5. 插件：增强JQuery的功能
-		1. 实现方式：
-			1. $.fn.extend(object) 
-				* 增强通过Jquery获取的对象的功能  $("#id")
-			2. $.extend(object)
-				* 增强JQeury对象自身的功能  $/jQuery
+```js
+<script>
+            $.fn.extend({
+                //定义了一个check方法，所有的jq对象都可以调用该方法
+                check:function () {
+                    this.appendTo($("#leftName"));
+                },uncheck:function () {
+
+​            }
+​        });
+​        $(function () {
+​            $("#rightName > option").click(function () {
+​                $("#rightName > option").check();
+​            });
+​        })
+ </script>
+```
+
+实现方式：
+	1. $.fn.extend(object) 局部
+		* 增强通过Jquery获取的对象的功能  $("#id")
+
+ 	5. 插件：增强JQuery的功能
+
+		2. $.extend(object)全局
+			* 增强JQeury对象自身的功能  $/jQuery
+
 
 
