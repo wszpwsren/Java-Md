@@ -137,6 +137,22 @@
 ## 	Jedis
 
 数据结构
+	redis操作各种redis中的数据结构
+		String
+			set
+			get
+		Hash
+			hset
+			hget
+		List
+			lpush
+			rpush
+			lpop
+			rpop
+		set
+			sadd
+		zset
+			zadd
 持久化操作
 使用Java客户端操作Redis数据库的工具
 
