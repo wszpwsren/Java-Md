@@ -289,21 +289,75 @@ public List<Province> findAll() {
 maven开发的crm项目，jar包不在项目中，在jar包仓库中，代码可复用
 
 依赖管理
-	maven工程队jar包的管理过程，从jar包坐标xun'z
+	maven工程队jar包的管理过程，从jar包坐标（pom.xml）寻找依赖jar包
+一键构建
+	构建项目：编译、测试、运行、打包、安装
+	一键构建：整个过程又maven进行管理
+	mvn:构建项目
+maven仓库
+	本地仓库 
+		Default: ${user.home}/
+	中央仓库
+		联网下从中央仓库下载jar包，放置了几乎所有开源的jar包
+	远程仓库 //私服
+标准目录结构
+					传统项目名		maven项目标准目录结构	
+	核心代码部分			src			src/main/java
+	配置文件部分						src/main/resources
+	测试代码部分						src/test/java
+	测试配置文件						src/test/resources
+	页面资源								src/main/Webapp
+	
+    mvn clean
+    	清除项目编译信息
+    mvn compile
+    mvn test
+        //包含了compile
+    mvn package
+        //包含了compile及test
+        打包格式由conf确定
+    mvn install
+        //包含了compile test package
+        将项目安装至本地仓库
+maven生命周期
+	编译	测试	打包	安装	发布
+													deploy
+	清理生命周期 clean
+	默认生命周期：编译至发布
+		每一个构建项目的命令都对应了maven底层的一个插件
+	站点生命周期：
+## maven概念模型
+maven依赖管理
+	pom.xml项目对象模型
+        项目自身信息
+            项目信息
+            项目坐标
+        依赖包信息
+            依赖管理模型
+            	公司组织名称groupid
+            	项目名artifactid
+            	版本号version
+        运行环境
+            JDK插件
+            tomcat插件
+	
+maven 配置
+	maven-runner-vm options-    							-DarchetypeCatalog=internal
+//配置离线
 
+maven集成tomcat插件时，运行500
+	tomcat中jar包与项目中jar包冲突
+	//修改作用域
+	 
 
-
-
-
-
-
-
-
-
-
-
-
-
+```
+<dependency>
+      <groupId>javax.servlet.jsp</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>2.2</version>
+      <scope>provided</scope>
+    </dependency>
+```
 
 
 
