@@ -194,11 +194,102 @@ static {
     }
 ```
 
+查询数据
 
+html->servlet->service->Dao->Domain(db)
+
+## html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Province</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script>
+        $(function () {
+            $.get("/test/provinceServlet",{},function (data) {
+                $(data).each(function () {
+                    var option = "<option name='"+this.id+"'>"+this.name+"</option>";
+                    $("#province").append(option);
+                });
+            })
+        })
+    </script>
+</head>
+<body>
+    <select id="province">
+        <option>-- --</option>
+    </select>
+</body>
+</html>
+
+
+
+## servlet
+
+```
+@WebServlet("/provinceServlet")
+public class ProvinceServlet extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //调用service
+        List<Province> all = new ProvinceServiceImpl().findAll();
+        //序列化list为json
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(all);
+        response.setContentType("application/json;charset=utf-8");
+        response.getWriter().write(json);
+    }
+
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    this.doPost(request, response);
+}
+
+}
+```
+
+## Service
+
+```
+public class ProvinceServiceImpl implements ProvinceService {
+    //声明DAO
+    private ProvinceDao dao = new ProvinceDaoImpl();
+
+@Override
+public List<Province> findAll() {
+    return dao.findAll();
+}
+​```
+
+}
+```
+
+## Dao
+
+```
+public class ProvinceDaoImpl implements ProvinceDao {
+    //声明成员变量
+    private JdbcTemplate template = new JdbcTemplate(JDBCUtils.getDataSource());
+
+@Override
+public List<Province> findAll() {
+    String sql = "select * from province";
+    List<Province> query = template.query(sql, new BeanPropertyRowMapper<Province>(Province.class));
+    return query;
+}
+​```
+
+}
+```
+
+## Db
 
 # Maven
 
+maven开发的crm项目，jar包不在项目中，在jar包仓库中，代码可复用
 
+依赖管理
+	maven工程队jar包的管理过程，从jar包坐标xun'z
 
 
 
