@@ -141,9 +141,12 @@
 		String
 			set
 			get
+			setex（key，sec，value）
+				指定过期时间
 		Hash
 			hset
 			hget
+			hgetall
 		List
 			lpush
 			rpush
@@ -151,10 +154,47 @@
 			rpop
 		set
 			sadd
+			smembers
 		zset
-			zadd
+			zadd（key score members）
 持久化操作
 使用Java客户端操作Redis数据库的工具
+Jedis连接池 Jedispool
+	指定连接池配置
+		JedisPoolConfig cof = new JedisPoolConfig（）
+		config.setMaxTotal)(20)
+		config.setMaxIdle(10)
+	创建Jedispool连接池对象
+		JedisPool jP = new JedisPool(cof，host，port)
+	调用方法getResource（）获取jedis连接
+	使用
+	归还
+Jedis工具类
+
+```
+static {
+        InputStream iS = JedisPoolUtils.class.getClassLoader().getResourceAsStream("Jedis.properties");
+        Properties pro = new Properties();
+        try {
+            pro.load(iS);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        jedisPoolConfig.setMaxTotal(Integer.parseInt(pro.getProperty("maxTotal")));
+        jedisPoolConfig.setMaxTotal(Integer.parseInt(pro.getProperty("maxIdle")));
+        jP= new JedisPool(jedisPoolConfig,pro.getProperty("host"), Integer.parseInt(pro.getProperty("port")));
+    }
+    /**
+     * 获取连接方法
+     */
+    private static JedisPool jP;
+    public  static Jedis getJedis(){
+        return jP.getResource();
+    }
+```
+
+
 
 # Maven
 
