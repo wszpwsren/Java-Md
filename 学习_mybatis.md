@@ -3,10 +3,26 @@
 # mybatis入门
 
 mabatis概述
-	
+	框架：构建-构建之间的交互方法
+		//解决方案
+		mybatis：持久层框架//dao层
+	持久层技术解决方案
+		JDBC技术：
+			Connection
+			PreparedStatement
+			ResultSet
+		SpringJdbcTemplate
+			Spring中对jdbc的简单封装
+		Apache的DBUtils：
+			Apache对Jdbc的简单封装
+		//Jdbc是规范，JdbcTemplate和DBUtils都是工具类
+		
+		mybatis内部封装了jdbc，只需要配置xml
+		ORM：Object Relational Mapping 对象关系映射
+			把数据库表和实体类及实体类的属性对应起来
 
 mybatis环境搭建
-
+	
 mybatis入门
 
 自定义mybatis框架
