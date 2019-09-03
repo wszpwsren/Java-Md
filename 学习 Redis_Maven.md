@@ -361,13 +361,23 @@ maven集成tomcat插件时，运行500
 
 
 
+![1567507590609](C:\Users\feketerigo\AppData\Roaming\Typora\typora-user-images\1567507590609.png)
 
+# 技术选型
 
-
-
-
-
-
+Web层
+	Servlet：前端控制器
+	html:视图
+	Filter：过滤器
+	Beanutils：数据封装
+	Jackson：json序列化工具
+Sevice层
+	Javamail：邮件客户端
+	Jedis：nosql内存数据库
+Dao层
+	Mysql
+	Druid
+	SpringJdbcTemplate
 
 
 
