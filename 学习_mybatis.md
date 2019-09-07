@@ -36,7 +36,58 @@ mybatis环境搭建
 		由于使用代理方式创建代理对象，无需创建dao层实现对象
 		dao层xml文件mapper执行语句必须填写返回值类型（domain类）
 mybatis入门
-	
+        读取配置文件
+        创建SQLSessionFactory工厂
+        创建SqlSession
+        创建Dao接口的代理对象
+        执行dao中的方法
+        释放资源
+            //需要在映射配置中告知mybatis要封装到哪个实体类中
+            配置的方式：指定实体类的全限定类名
+	使用注解
+		不使用Dao.xml，在dao接口方法上使用@selecet注解，并指定sql语句
+		同时将mapper注解更改为class
+		
+
+```
+ <!--指定映射配置文件的位置，指的是每个dao独立的配置文件
+        如果使用注解配置，那么此处应该使用class属性指定被注解的dao全限定类名-->
+    <mappers>
+       <!-- <mapper resource="com/k/Dao/UserDao.xml"></mapper>-->
+        <mapper class="com.k.Dao.UserDao"></mapper>
+    </mappers>
+```
+	@Test
+	public void test(){
+	    //读取配置文件，只能读取类路径的配置文件
+	    //或者使用ServletContext对象的getRealPath（）
+	    InputStream sqlMapConfig = MybatisTest.class.getClassLoader().getResourceAsStream("SqlMapConfig.xml");
+	    //创建SqlSessionFactory工厂
+	    //使用了构建者模式（builder）
+	    SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
+	    SqlSessionFactory factory = builder.build(sqlMapConfig);
+	    //使用工厂生产SqlSession对象
+	    //解耦
+	    SqlSession session = factory.openSession();
+	    //使用SqlSession创建Dao接口的代理对象
+	    UserDao userDao = session.getMapper(UserDao.class);
+	    //使用代理对象执行方法
+	    List<User> all = userDao.findAll();
+	    for (User user : all) {
+	        System.out.println(user);
+	    }
+	    //释放资源
+	    session.close();
+	}
+自定义mybatis分析
+
+​	myvatis在使用代理dao的方式实现crud时
+​		1、创建代理对象
+​		2、在代理对象中调用selectList方法
+​		![1567667902669](C:\Users\feketerigo\AppData\Roaming\Typora\typora-user-images\1567667902669.png)
+
+
+
 自定义mybatis框架
 
 # mybatis基本使用
