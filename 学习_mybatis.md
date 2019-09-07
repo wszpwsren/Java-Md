@@ -89,6 +89,8 @@ mybatis入门
 
 
 自定义mybatis框架
+	sqlsessionfactorybuilder接收sqlmapconfig.XML，创建sqlsessionfactory
+	
 
 # mybatis基本使用
 
