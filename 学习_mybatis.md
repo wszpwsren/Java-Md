@@ -242,9 +242,56 @@ mybatis参数和返回值
 ​			resultMap：
 
 mybatis的dao编写
-	
+	PreparedStatement的执行方法
+		execute：CRUD：返回值bool类型，表示是否有结果集
+		executeUpdate：CUD，返回值是影响数据库记录的行数
+		executeQuery：R，返回值是结果集ResultSet对象
 
 mybatis配置的细节/标签
+	可以在标签内部配置连接数据库的信息。也可以通过属性引用外部配置文件信息
+        resource属性： 常用的
+            用于指定配置文件的位置，是按照类路径的写法来写，并且必须存在于类路径下。
+        url属性：
+            是要求按照Url的写法来写地址
+            URL：Uniform Resource Locator 统一资源定位符。它是可以唯一标识一个资源的位置。
+            它的写法：
+                http://localhost:8080/mybatisserver/demo1Servlet
+                协议      主机     端口       URI
+
+​        URI:Uniform Resource Identifier 统一资源标识符。它是在应用中可以唯一定位一个资源的。
+​        
+​    
+
+```
+file:\\\Users\feketerigo\IdeaProjects\test06_profiles_test\src\main\resources\jdbcC.properties
+```
+
+
+​      
+
+```
+  <!--配置别名-->
+    <typeAliases>
+        <!--type全限定类名。alias属性指定别名，当指定了别名不再区分大小写-->
+        <typeAlias type="com.k.domain.User" alias="user"></typeAlias>
+         <!--package指定要配置别名的包，当指定之后，该包下的实体类都会注册别名，类名为别名，不区分大小写-->
+        <package name="com.k.domain"/>
+    </typeAliases>
+```
+
+
+
+
+```
+<mappers>
+        <mapper resource="Dao/UserDao.xml"></mapper>
+        <!--指定dao接口所在的包，当指定之后不需要再写mapper-->
+        <package name="com.k.Dao"/>
+<!--        <mapper class="com.k.Dao.UserDao"></mapper>-->
+    </mappers>
+```
+
+
 
 # mybatis深入和多表
 
@@ -252,7 +299,18 @@ mybatis连接池
 
 mybatis事务控制及设计方法
 
-mybatis多表查询
+mybatis基于xml配置的动态SQL语句的使用
+
+​	mapper配置文件中的几个标签
+​		<if>
+​		<where>
+		<foreach>
+		<sql>
+
+mybatis多表查询[[]]
+	一对多
+	一对一
+	多对多
 
 # mybatis缓存和注解开发
 
