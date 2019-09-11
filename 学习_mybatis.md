@@ -1,3 +1,5 @@
+
+
 # Mybatis
 
 # mybatis入门
@@ -17,6 +19,7 @@ mabatis概述
 			Apache对Jdbc的简单封装
 		//Jdbc是规范，JdbcTemplate和DBUtils都是工具类
 		
+
 		mybatis内部封装了jdbc，只需要配置xml
 		ORM：Object Relational Mapping 对象关系映射
 			把数据库表和实体类及实体类的属性对应起来
@@ -96,9 +99,150 @@ mybatis入门
 
 mybatis单表crud操作
 
+Dao.xml
+
+    <select id="findAll" resultType="com.k.domain.User">
+        select * from user
+    </select>
+    <insert id="saveUser" parameterType="com.k.domain.User">
+        insert into user(username,address,sex,birthday)values(#{username},#{address},#{sex},#{birthday});
+    </insert>
+    <update id="updateUser" parameterType="com.k.domain.User">
+        update user set username=#{username},address=#{address},sex=#{sex},birthday=#{birthday} where id= #{id};
+    </update>
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+        delete from user where id =#{id};
+    </delete>
+    <select id="findById" parameterType="java.lang.Integer" resultType="com.k.domain.User">
+        select * from user where id = #{id};
+    </select>
+    <select id="findByName" parameterType="java.lang.String" resultType="com.k.domain.User">
+        select * from user where username like #{username}
+        /*select * from user where username like '%${value}%'*/
+    </select>
+    <select id="findTotal" resultType="java.lang.Integer">
+        select count(id) from user ;
+    </select>
+
+## ↓
+
+Test
+
+```
+public class MybatisTest {
+    private UserDao userDao;
+    private SqlSession session;
+    @Before
+    public void init(){
+        //读取配置文件
+        InputStream sqlMapConfig = MybatisTest.class.getClassLoader().getResourceAsStream("SqlMapConfig.xml");
+        //创建SqlSessionFactory工厂
+        SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
+        SqlSessionFactory factory = builder.build(sqlMapConfig);
+        //使用工厂生产SqlSession对象
+        session = factory.openSession();
+        //使用SqlSession创建Dao接口的代理对象
+        userDao = session.getMapper(UserDao.class);
+    }
+    @After
+    public void destory(){
+        session.commit();
+        session.close();
+    }
+    @Test
+    public void test(){
+```
+
+        //使用代理对象执行方法
+        List<User> all = userDao.findAll();
+        for (User user : all) {
+            System.out.println(user);
+        }
+    }
+    @Test
+    public void testsave(){
+        User user = new User();
+        user.setUsername("name");
+        user.setAddress("北京");
+        user.setSex("男");
+        user.setBirthday(new Date());
+        //使用代理对象执行方法
+        userDao.saveUser(user);
+    }
+    @Test
+    public void testUpdate(){
+        User user = new User();
+        user.setId(46);
+        user.setUsername("UPDATE");
+        user.setAddress("上海");
+        user.setSex("男");
+        user.setBirthday(new Date());
+        userDao.updateUser(user);
+    }
+    @Test
+    public void testDelete(){
+        userDao.deleteUser(48);
+    }
+    @Test
+    public void testFind(){
+        User user = userDao.findById(49);
+        System.out.println(user);
+    }
+    @Test
+    public void testFindByName(){
+        List<User> byName = userDao.findByName("%王%");
+        for (User user : byName) {
+            System.out.println(user);
+        }
+    }
+    @Test
+    public void testFindTotal(){
+        int total = userDao.findTotal();
+        System.out.println(total);
+    }
+插入时回显id值
+
+```
+<insert id="saveUser" parameterType="com.k.domain.User">
+        <!--配置插入操作 -->
+        <selectKey keyProperty="id" keyColumn="id" resultType="int" order="AFTER">
+            select last_insert_id();
+        </selectKey>
+        insert into user(username,address,sex,birthday)values(#{username},#{address},#{sex},#{birthday});
+    </insert>
+    
+    test中只需要获取user.id即可
+```
+
 mybatis参数和返回值
+	传递pojo对象（bean对象）
+		OGNL表达式（apache）Object Graphic Navigation Language，对象图导航语言
+		通过对象的取值方法获取数据。写法上把get省略
+		获取对象名称
+			类中：uesr.getUsername();
+			OGNL:user,username
+	结果类型的封装
+		输出pojo对象
+
+```
+<mapper namespace="com.k.Dao.UserDao">
+    <resultMap id="userMap" type="com.k.domain.User">
+        <id property="userId" column="id"></id>
+    </resultMap>
+    <!--配置查询所有-->
+    <select id="findAl" resultMap="userMap">
+​    select * from user
+</select>
+```
+
+​	输出pojo列表
+
+​	输出pojo列表
+​		字段映射方式（当列名和类属性名不同时）：
+​			resultMap：
 
 mybatis的dao编写
+	
 
 mybatis配置的细节/标签
 
