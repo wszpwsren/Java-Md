@@ -296,21 +296,120 @@ file:\\\Users\feketerigo\IdeaProjects\test06_profiles_test\src\main\resources\jd
 # mybatis深入和多表
 
 mybatis连接池
-
+	容器是一个集合对象，必须为线程安全的，该集合必须实现队列特性
+	配置位置：
+		主配置文件datasource标签，type标签表示采用什么连接方式
+			type取值：
+				pooled
+					传统javax.sql.DataSource规范的连接池
+					mybatis中有针对规范的实现
+				unpooled
+					传统的获取连接方式，虽然实现了javax.sql.DataSource接口，但是没有实现池
+				jndi
+					采用服务器提供的jndi技术实现来获取DataSoruce对象，不同的服务器所能拿到的DataSource是不一样的
+					如果不是web或maven的war工程是不能使用的
+					//tomcat服务器，采用的连接池是dbcp连接池
 mybatis事务控制及设计方法
+	基于sqlsession的提交与回滚
+	自动提交
+		factory生成session时将参数设置为true
 
 mybatis基于xml配置的动态SQL语句的使用
+	
 
 ​	mapper配置文件中的几个标签
 ​		<if>
 ​		<where>
-		<foreach>
-		<sql>
+​		<foreach>
+
+<select id="findUserByIds" resultType="User" parameterType="Queryvo">
+        select * from user 
+        <where>
+            <if test="ids != null and ids.size()>0">
+                <foreach collection="ids" open="and id in(" close=")" item="id" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+​	<sql>
+
+```
+<!--抽取重复sql-->
+    <sql id="default">
+        select * from USER
+    </sql>
+
+<!--配置查询所有-->
+```
+
+<select id="findAll" resultType="com.k.domain.User">
+    <include refid="default"></include>
+</select>
+
+
 
 mybatis多表查询[[]]
 	一对多
-	一对一
-	多对多
+		建立表：用户表，账户表
+			使用外键在账户表中添加
+		建立实体类：用户类，账户类
+			让用户和账户的实体类能体现关系
+		建立两个配置文件
+			用户配置
+			账户配置
+		实现配置
+			查询用户时，可以同时得到用户下的账户信息
+	多对一
+		
+
+```
+<!--配置查询所有-->
+    <select id="findAll" resultMap="account_UserMap">
+        select u.*,a.id as aid,a.uid,a.money from account a,user u where u.id = a.uid
+    </select>
+    <!--定义封装account和user的resultmap-->
+    <resultMap id="account_UserMap" type="account">
+        <id property="id" column="aid"></id>
+        <result property="uid" column="uid"></result>
+        <result property="money" column="money"></result>
+        <!--一对一的封装映射，配置封装user的内容-->
+        <association property="user" column="uid" javaType="user">
+            <id property="id" column="id"></id>
+            <result column="username" property="username"></result>
+            <result column="address" property="address"></result>
+            <result column="sex" property="sex"></result>
+            <result column="birthday" property="birthday"></result>
+        </association>
+    </resultMap>
+```
+
+​	一对一
+
+ 
+
+```
+<!--定义user的resultmap-->
+    <resultMap id="user_AccountMap" type="user">
+        <id property="id" column="id"></id>
+        <result property="username" column="username"></result>
+        <result property="address" column="address"></result>
+        <result property="sex" column="sex"></result>
+        <result property="birthday" column="birthday"></result>
+        <!--配置user对象中accounts集合的映射-->
+        <collection property="accounts" ofType="account">
+            <id column="aid" property="id"></id>
+            <result column="uid" property="uid"></result>
+            <result column="money" property="money"></result>
+        </collection>
+    </resultMap>
+    <!--配置查询所有-->
+    <select id="testFindUser" resultMap="user_AccountMap">
+        select * from user u left join account a on u.id = a.uid
+    </select>
+```
+
+​	多对多
 
 # mybatis缓存和注解开发
 
