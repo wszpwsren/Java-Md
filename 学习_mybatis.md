@@ -411,6 +411,45 @@ mybatis多表查询[[]]
 
 ​	多对多
 
+```
+<resultMap id="roleMap" type="role">
+        <id property="roleId" column="rid"></id>
+        <result property="roleName" column="ROLE_NAME"></result>
+        <result property="roleDesc" column="ROLE_DESC"></result>
+        <collection property="users" ofType="user">
+            <id column="id" property="id"></id>
+            <result column="username" property="username" ></result>
+            <result column="address" property="address" ></result>
+            <result column="sex" property="sex" ></result>
+            <result column="birthday" property="birthday" ></result>
+        </collection>
+    </resultMap>
+    <!--抽取重复sql-->
+    <sql id="default">
+        select * from role r
+    </sql>
+    <!--配置查询所有-->
+    <select id="findAll" resultMap = "roleMap">
+        select * from role
+    </select>
+    <select id="findR_U" resultMap="roleMap">
+        SELECT u.*,
+        r.id as rid,
+        r.ROLE_NAME,
+        r.ROLE_DESC
+        FROM role r
+        left join user_role ur
+        on R.ID = ur.RID
+        LEFT JOIN user u
+        on u.id = ur.uid
+    </select>
+```
+
+JNDI ：Java Naming and Directory Interface
+	
+
+
+
 # mybatis缓存和注解开发
 
 mybatis加载时机
