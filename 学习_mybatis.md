@@ -446,14 +446,96 @@ mybatis多表查询[[]]
 ```
 
 JNDI ：Java Naming and Directory Interface
-	
+	作用为模仿windows系统的注册表
+	key：路径（String）
+		路径固定，名称指定
+	value：jndi中是对象（Object）
+		通过配置文件的方式指定
 
 
 
 # mybatis缓存和注解开发
 
 mybatis加载时机
-
+	延迟加载
+		查询用户时，账户信息按需求加载
+		需要配置xml-lazyLoadingEnabled
+	立即加载
+		查询账户时，用户信息应同时加载
+	表关系
+		一对多，多对多：延迟加载
+		多对一，一对一：立即加载
 mybatis一级缓存/二级缓存
+	缓存
+		存在于内存的临时数据
+		减少和数据库的交互次数，提高执行效率
+	什么样的数据能使用缓存
+		适用于缓存的数据：
+			经常查询，并且不常改动
+			数据的正确与否不影响最终结果的
+		不适用于缓存的数据：
+			经常改动的数据
+			数据的正确性影响最终结果的
+	一级缓存
+		MyBatis中SqlSession对象的缓存
+			当查询之后，查询的结果会存入SqlSession提供的内存中
+				该区域的结构为Map
+				当我们再次查询同样的数据，MyBatis会先从SqlSession中查看是否有数据，如果有则拿出使用
+				当SqlSession对象消失时，一级缓存消失
+				//sqlSession.clearCache
+			一级缓存的同步
+				调用sqlSession的CUD，commit，close等方法时，会清空一级缓存
+				
+	二级缓存
+		Mybatis的SqlSessionFactory对象的缓存，由同一个Factory创建的SqlSession共享缓存
+		使用步骤：
+			让Mybatis框架支持二级缓存-》config
+			<setting name="cacheEnable" value="true"/>
+			让当前的映射文件支持二级缓存-》mapper
+			<cache></cache>
+			让当前的操作支持二级缓存-》select标签
+			<select id="testFindUser" resultType="user" useCache="true">
+			//二级缓存中村放的内容是数据
+				//{xx:"xx",yy:"yy"}
 
 mybatis注解开发
+	//Dao层注解
+	环境搭建
+		//使用注解开发,当存在xml时，会报错
+		//当实体类中名称与数据库名称不同时，使用@results注解
+		
+
+```
+@Select("select * from user")
+    @Results({
+            @Result(id=true,column = "id",property = "userId"),
+            @Result(column = "username",property = "userName"),
+            @Result(column = "address",property = "address"),
+            @Result(column = "sex",property = "sex"),
+            @Result(column = "birthday",property = "birthday")
+    })
+    List<User> findAll();
+```
+
+​	//当为其他方法使用时
+
+```
+ @Select("select * from user")
+    @Results(id ="userMap",value={
+            @Result(id=true,column = "id",property = "userId"),
+            @Result(column = "username",property = "userName"),
+            @Result(column = "address",property = "address"),
+            @Result(column = "sex",property = "sex"),
+            @Result(column = "birthday",property = "birthday")
+    })
+    List<User> findAll();
+
+@Insert("insert into user(username,address,sex,birthday)values(#{username},#{address},#{sex},#{birthday})")
+@ResultMap(value={"userMap"})
+void saveUser(User user);
+```
+
+
+​	单表CRUD（代理）
+​	多表R
+​	缓存配置
