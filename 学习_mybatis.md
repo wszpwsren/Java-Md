@@ -535,7 +535,38 @@ mybatis注解开发
 void saveUser(User user);
 ```
 
-
 ​	单表CRUD（代理）
 ​	多表R
-​	缓存配置
+
+```
+@Select("select * from user")
+    @Results(id ="userMap",value={
+            @Result(id=true,column = "id",property = "id"),
+            @Result(column = "username",property = "username"),
+            @Result(column = "address",property = "address"),
+            @Result(column = "sex",property = "sex"),
+            @Result(column = "birthday",property = "birthday"),
+            @Result(property = "accounts",column = "id",many=@Many(select = "com.k.dao.AccountDao.findAccountByUid",fetchType = FetchType.LAZY))
+    })
+    List<User> findAll();
+```
+
+```
+@Select("select * from account where uid = #{id}")List<Account> findAccountByUid(Integer id);
+```
+
+缓存配置
+
+```
+@CacheNamespace(blocking = true)
+	public interface UserDao {
+```
+
+```
+<configuration>   
+<!--引入外部配置文件-->    
+<properties resource="jdbcC.properties"></properties>    <settings>        
+	<setting name="cacheEnable" value="true"/>    
+</settings>
+```
+
