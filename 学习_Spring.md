@@ -6,14 +6,30 @@
 
 ​	spring
 ​		方便解耦，简化开发
-		
+​		AOP编程支持
+​		声明式事务的支持
+​		简化API
 ​	spring的两大核心
 ​	spring的体系结构
+		DataAccess------Web
+				AOP
+​		Core Container（IOC）		
+				Test
 
 ## 程序的耦合与解耦
-
 ​	耦合问题
+		程序之间的依赖
+			类间依赖
+			方法间依赖
+		开发中
+			需要做到编译器不依赖，运行期依赖
+		解决思路
+			使用反射创建对象，避免使用new
+			通过配置文件获取要创建的对象信息
+				//xml-》key(String)&value(全限定类名)
 ​	工厂模式解耦
+		//Bean：可重用组建
+		
 
 ## IOC概念和springIOC
 
