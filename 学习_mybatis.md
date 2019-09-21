@@ -571,3 +571,14 @@ void saveUser(User user);
 </settings>
 ```
 
+@Configuration
+	配置类
+
+@CompenentScanm
+	用于注解指定spring再创建容器时扫描的包
+	属性
+		value/basePackages：用于指定创建容器时需要扫描的包
+			等同于xml配置的context
+@Bean
+	用于把当前的方法的返回值作为bean对象存入spring ioc对象
+	属性：用于指定bean的id，默认值为方法名
