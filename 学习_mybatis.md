@@ -574,7 +574,7 @@ void saveUser(User user);
 @Configuration
 	配置类
 
-@CompenentScanm
+@CompenentScan
 	用于注解指定spring再创建容器时扫描的包
 	属性
 		value/basePackages：用于指定创建容器时需要扫描的包
