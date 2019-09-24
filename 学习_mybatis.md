@@ -844,7 +844,50 @@ Aspect
 ## 注解
 
 ​	@Aspect
-		表示当前类是一个切面类
+​		表示当前类是一个切面类
+​	//配置切入点
+​	@Pointcut（"execution(public void com.k.service.impl.AccountImpl.saveAccount())"）
+​	private void pt（）{}
+​	@Before("pt()")
+​	@After-returning("pt()")
+​	@AfterThrowing("pt()")
+​	@After("pt()")
+​	@Around
 
+	xml配置
+	//开启注解aop支持
+	<aop:aspectj-sutoproxy>
 
+SPringJdbcTemplate
+	JdbcTemplate作用
+		与数据库交互，实现crud
+	如何创建该对象
+	常用方法
+	
 
+	//用于代替注解控制（bug），通过环绕通知解决
+	@Around("pt()")
+	public Object aroundAdvice(ProceedingJoinPoint pjp) {
+	    Object rtValue = null;
+	    try {
+	        Object[] args = pjp.getArgs();
+	        this.beginTransaction();
+	        rtValue = pjp.proceed(args);
+	        this.commit();
+	        return rtValue;
+	    } catch (Throwable throwable) {
+	        this.rollback();
+	        throw new RuntimeException(throwable);
+	    } finally {
+	        this.release();
+	    }
+	}
+Spring的声明式事务控制
+	事务存在于业务层
+	spring提供了事务控制的接口
+	spring事务控制基于aop
+	
+	PlatformTransactionManager接口
+	实现类Datasource/hibernate
+	XML
+	注解
