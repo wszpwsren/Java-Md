@@ -194,16 +194,47 @@ SessionAttributes
     <mvc:resources mapping="/js/**" location="/js/"></mvc:resources>
 ```
 
+Json封装bean需要jackson jar包2.7以上
 
+```
+<dependency>            			 		 <groupId>com.fasterxml.jackson.core</groupId>            <artifactId>jackson-databind</artifactId>            <version>2.9.0</version>        
+</dependency>
+<dependency>            <groupId>com.fasterxml.jackson.core</groupId>            <artifactId>jackson-core</artifactId>            <version>2.9.0</version>        
+</dependency>        
+<dependency>            <groupId>com.fasterxml.jackson.core</groupId>            <artifactId>jackson-annotations</artifactId>            <version>2.9.0</version>        
+</dependency>
+```
 
+文件上传
 
+form表单的enctype取值必须为multipart/form-data
+	默认值为appliccation/x-www-form-urlencoded
+		enctype：是表单请求正文的类型
+	method属性的取值为post
+	提供一个文件选择域<input type="file">
 
+```
+<dependency>            
+<groupId>commons-fileupload</groupId>            <artifactId>commons-fileupload</artifactId>            <version>1.3.1</version>        
+</dependency>        
+<dependency>            
+<groupId>commons-io</groupId>            
+<artifactId>commons-io</artifactId>            <version>2.4</version>        
+</dependency>
+```
 
+springmvc可以通过前端控制器调用文件上传
+	配置文件解析器request-》upload
+		mulltiparresolver
+​	执行controller方法（接收multipartfile）
+​		//input name必须和multipartfile相同
 
-
-
-
-
+```
+<!--配置文件解析器-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10485760"></property>
+    </bean>
+```
 
 
 
