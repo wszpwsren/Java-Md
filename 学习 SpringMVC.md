@@ -152,13 +152,47 @@ public Date convert(String source) {
 常用注解
 
 RequestParam
+	把请求中指定名称的参数给控制器中的形参赋值
+RequestBody
+	用于获取请求体内容，直接使用得到kv结构数据
+	get请求不适用
+PathVariable
+	用于绑定url的占位符
+		/delete/{id}
+REST风格URL
+	根据请求方式的不同选择controller中的方法
+    controller中的方法使用同一地址
+HiddentHttpMethodFilter
+	WebClient使用静态方法可发送各种请求
+RequestHeader
+	获取请求消息头
+CookieValue
+	获取指定Cookie的值
+ModelAttribute
+	参数
+		存入Map后，将存入数据取出
+	方法
+		表示方法会在控制器的方法执行前执行
+			实例：当提交数据不是完整的实体类数据时，会从数据库对象原有数据提取
+SessionAttributes
+	用于多次执行 控制器方法 间的参数共享
+	model.attribute(k,v)添加
+	modelMap.get(k)获取
+	sessionStatus.setComplete()
 
+## 响应数据和结果视图
+	字符串返回值
+	无返回值
+		自动请求WEB—INF/自己/自己.jsp
+	返回值是ModelAndView对象
 
+@ResponseBody响应json数据
+	配置前端控制器放行js读取
 
-
-
-
-
+```
+<!--前端控制器放行-->
+    <mvc:resources mapping="/js/**" location="/js/"></mvc:resources>
+```
 
 
 
