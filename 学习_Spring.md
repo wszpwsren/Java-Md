@@ -251,3 +251,301 @@ Spring和Junit的整合
 # spring中的AOP和基于XML/注解的AOP配置
 
 # spring中的JDBCTemplate及Spring的事务控制
+
+# Junit spring
+
+junit不会判断我们是否使用了spring框架，并且没有生成ioc容器
+
+解决：
+	导入spring整合junit
+
+```
+//使用Spring提供的junit
+@RunWith(SpringJUnit4ClassRunner.class)
+//告知spring运行器，spring和ioc的创建方式
+@ContextConfiguration(classes = SpringConfiguration.class)
+public class AppTest 
+{
+    /**
+     * Rigorous Test :-)
+     */
+    @Autowired
+    ApplicationContext ac;
+    @Test
+    public void testFindAll() {}
+```
+
+# AOP
+
+## 完善account案例
+
+ThreadLocal
+	把Connection和当前线程绑定，从而使一个线程中只有一个连接
+	事务控制都应该存在于service层
+	
+
+```
+private ThreadLocal<Connection> tl = new ThreadLocal<Connection>();
+```
+
+```
+//由于线程和连接池绑定，当连接关闭后，线程与连接的绑定没有取消，需要手动将其解绑
+public void removeConnection(){
+    tl.remove();
+}
+connectionUtils.removeConnection();
+```
+
+
+
+## 分析问题
+
+## 动态代理
+
+特点：字节码随用随创建，随用随加载
+作用：不修改源码的基础上对方法增强
+分类：
+	1、基于接口的动态代理
+		Proxy（JDK）
+			Proxy类的newProxyInstance方法创建
+			//要求被代理类最少实现要给接口
+			newProxyInstance
+				参数：
+					Classloader 
+						用于加载代理对象字节码的，和被代理对象共用类加载器
+					CLass<?>(interface)
+						让代理对象和被代理对象有相同的方法
+						xx.getClass().getiInterfaces()
+					InvocationHandler
+						如何代理
+						一般写一个该接口的实现类，通常为匿名内部类
+						此接口的实现类是谁用谁写
+						
+
+```
+				/**
+                 * 作用：执行被代理对象的任何接口方法都会经过该方法（拦截？）
+                 * proxy-》代理对象的引用
+                 * method-》当前执行的方法
+                 * args-》当前执行方法所需的参数
+                 * return-》和被代理对象有相同的返回值
+                 */
+                (proxy, method, args) -> {
+                    
+​                return method.invoke(accountService, args);
+​            }
+```
+
+​	2、基于子类的动态代理
+​	Enhancer(cglib)
+​	创建代理对象的要求：
+​		被代理类不能为最终类
+​		create方法的参数：
+​			class：字节码
+​				用于指定被带离对象的字节码
+​			callback：用于提供增强的代码
+​				一般写该方法的子接口实现类：methodInterceptor
+
+## 动态代理的实现
+
+```
+<!--配置代理的service-->
+    <bean id="proxyAccountService" factory-bean="beanFactory" factory-method="getAccountService"></bean>
+
+<!--配置beanfactory-->
+<bean id="beanFactory" class="com.itheima.factory.BeanFactory1">
+    <!-- 注入service -->
+    <property name="accountService" ref="accountService"></property>
+    <!-- 注入事务管理器 -->
+    <property name="txManager" ref="txManager"></property>
+</bean>
+```
+
+## 解决案例问题
+
+## AOP
+
+面向切面编程
+	基于动态代理
+	//在程序运行中，在不修改源码的情况下增强方法
+
+## AOP相关术语
+
+Joinpoint
+	指被拦截到的点（方法），spring只支持方法类型的连接点
+Pointcut
+	指我们要对哪些Joinpoint进行拦截的定义
+Advice
+	拦截/通知
+	拦截到Joinpoint后要做的事
+	通知类型：前置，后置，环绕，异常，最终
+		在环绕通知中有明确的切入点方法调用
+Introduction
+	引介 
+		在不修改类代码的前提下，可以在运行器为类动态添加方法/field
+Target
+	代理目标对象
+Weaving
+	织入
+	指把增强应用到目标对象的过程
+Proxy
+	代理
+	被织入
+Aspect
+	切面
+	指切入点和通知的结合
+	
+
+## 事件
+
+```
+需要编写业务代码
+把共用代码抽取出来，制作成通知
+在配置文件中，声明切入点和通知间的关系（切面）
+spring：监控切入点方法的执行，监控到切入点使用代理，根据通知类别进行织入
+```
+
+## AOP基于XML和注解的配置
+
+```
+<!--配置spring ioc-->
+<!--    <bean id="accountService" class="com.k.service.impl.AccountImpl"></bean>-->
+    <context:component-scan base-package="com.k"></context:component-scan>
+    <!--Spring AOP配置-->
+    <!--把通知的bean加入ioc-->
+    <bean id="logger" class="com.k.utils.Logger"></bean>
+    <!--使用aop:config标签标明开始aop的配置-->
+    <aop:config >
+        <!--使用aspect配置切面
+            id:给切面提供一个唯一表示
+            ref：是指定通知类bean 的id
+            -->
+        <aop:aspect id="logAdvice" ref="logger">
+            <!--配置通知类型,织入过程
+            method:指定哪个方法
+            pointcut:用于指定切入点表达式
+                //指对业务层哪些方法进行织入
+                表达式：
+                    execution
+                    访问修饰符 返回值 包名.包名.类名.方法名（参数列表）
+                    public void com.k.service.impl.AccountServiceImpl.saveAccount()
+                    //访问修饰符可以省略
+                    //包名可以使用..表示当前包及其子包
+                    //类名方法名可以使用*通配
+                    参数列表：
+                        可以写数据类型：
+                            基本类型写名称
+                            引用类型写包名.类名 java.lang.String
+                        可以使用*通配
+                        可以使用..表示全匹配
+                    全统配写法
+                    * *..*.*(..)
+                    实际写法
+                    * com.k.service.impl.*.*(..)
+            -->
+            <aop:before method="printLog" pointcut="execution(public void com.k.service.impl.AccountImpl.saveAccount())"></aop:before>
+        </aop:aspect>
+    </aop:config>
+```
+
+​	配置前置before
+​	配置后置after-returning
+​	配置异常after-throwing
+​	配置最终after
+​	配置环绕 around
+​		//环绕通知有明确的切入点方法调用
+​		spring框架提供了一个接口：proceedingJoinPoint
+​			存在方法proceed（）；
+​				此方法就相当于明确调用切入点方法
+​				该接口可以作为环绕通知的方法参数，程序执行时，spring框架会为我们体哦给你该接口的实现类
+
+```
+<!--配置切入点表达式
+                id:用于指定表达式的唯一标识
+                //此标签写在aspect标签内，只能当前切面可用
+                //或将pointcut放置在aspect前，可供其他切面使用
+            -->
+            <aop:pointcut id="pt" expression="execution(public void com.k.service.impl.AccountImpl.saveAccount())"/>
+            <aop:after method="printLog" pointcut-ref="pt"></aop:after>>
+```
+
+```
+ /**
+     * 环绕通知：是spring框架为我们提供的可以在代码中手动控制增强方法何时执行的方式
+     * @param pjp
+     * @return
+     * @throws Throwable
+     */
+    public Object aroundPrinting(ProceedingJoinPoint pjp) throws Throwable {
+        Object rtValue =null;
+        try {
+            Object[] args = pjp.getArgs();//获取方法执行所需的参数
+            System.out.println("around日志/前置");
+            rtValue = pjp.proceed(args);//明确调用业务层方法（切入点方法）
+            System.out.println("around日志/后置");
+            return rtValue;
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+            System.out.println("around日志/异常");
+        }finally {
+            System.out.println("around日志/最终");
+        }
+    }
+```
+
+## 注解
+
+​	@Aspect
+​		表示当前类是一个切面类
+​	//配置切入点
+​	@Pointcut（"execution(public void com.k.service.impl.AccountImpl.saveAccount())"）
+​	private void pt（）{}
+​	@Before("pt()")
+​	@After-returning("pt()")
+​	@AfterThrowing("pt()")
+​	@After("pt()")
+​	@Around
+
+```
+xml配置
+//开启注解aop支持
+<aop:aspectj-sutoproxy>
+```
+
+SPringJdbcTemplate
+	JdbcTemplate作用
+		与数据库交互，实现crud
+	如何创建该对象
+	常用方法
+	
+
+```
+//用于代替注解控制（bug），通过环绕通知解决
+@Around("pt()")
+public Object aroundAdvice(ProceedingJoinPoint pjp) {
+    Object rtValue = null;
+    try {
+        Object[] args = pjp.getArgs();
+        this.beginTransaction();
+        rtValue = pjp.proceed(args);
+        this.commit();
+        return rtValue;
+    } catch (Throwable throwable) {
+        this.rollback();
+        throw new RuntimeException(throwable);
+    } finally {
+        this.release();
+    }
+}
+```
+
+Spring的声明式事务控制
+	事务存在于业务层
+	spring提供了事务控制的接口
+	spring事务控制基于aop
+	
+
+PlatformTransactionManager接口
+实现类Datasource/hibernate
+XML
+注解
