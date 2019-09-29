@@ -245,10 +245,63 @@ springmvc可以通过前端控制器调用文件上传
 	编写自定义异常类（提示信息）
 	编写异常处理器
 	配置异常处理器（调转到页面）
-	
+
 拦截器：类似过滤器，对请求进行预处理，后处理
 	过滤器是servlet的，拦截器是springmvc的
 	过滤器配置/*时，对所有访问进行过滤，拦截器只会拦截访问的控制器方法，jsp，html等不拦截
 		编写拦截器类，实现HandlerInterceptor
 		配置拦截器
 	
+
+# SSM
+
+配置spring
+
+spring整合springmvc
+
+//能够从controller层调用service层
+需要将service注入tomcat ioc
+	tomcat加载spring
+		ServletContext域对象
+			服务器启动的时候创建
+			服务器关闭时销毁
+		监听器：
+			监听ServletContext域对象的创建和销毁
+	利用监听器加载spring配置文件，创建web版本工厂，存储servletcontext对象
+
+```
+	
+​	<!--配置spring监听器,默认只加载WEB-INF目录下的applicationContext.xml配置文件-->
+
+```
+
+```
+<listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <!--设置配置文件路径-->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:applicationContext.xml</param-value>
+  </context-param>
+```
+
+spring整合mybatis
+
+​	//service能够调用到dao
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
