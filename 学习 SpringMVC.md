@@ -289,7 +289,7 @@ spring整合springmvc
 spring整合mybatis
 
 ​	//service能够调用到dao
-	
+	将生成的代理对象存入ioc
 
 
 
