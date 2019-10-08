@@ -49,4 +49,44 @@ maven把一个完整的项目分成不同的模块
 今后如果开发一个项目，需要先考虑模块是否存在，如果存在直接引用
 我们可以把拆分的模块聚合到一起变成一个项目-maven聚合
 
+```
+  <!--工程
+        工程不等于完整的项目，一个完整的项目看的是代码，如果代码完整，那么就是完整的项目
+        工程只能使用自己内部的资源，工程天生是独立的，可以和其他工程或模块建立关联关系
+      模块
+        模块天生不是独立的，天生是属于父工程的，模块一旦创建，所有父工程的资源都可以使用
+      子模块天生集成父工程，可以使用父工程的所有资源
+      子模块天生之间没有任何关系
+      父子工程不用建立关系
+      平级之间的关系叫依赖
+    -->
+```
+
+传递依赖的包是否能使用，需要参考（默认compile）
+
+![1570483943406](C:\Users\feketerigo\AppData\Roaming\Typora\typora-user-images\1570483943406.png)
+
+实际开发中，如果传递依赖丢失，表现形式是jar包的坐标导不进去
+
 # 私服
+
+--安装第三方jar包到本地仓库
+
+----进入jar包所在目录运行
+mvn install:install-file -DgroupId=com.alibaba -DartifactId=fastjson -Dversion=1.1.37 -Dfile=fastjson-1.1.37.jar -Dpackaging=jar
+----打开cmd直接运行
+mvn install:install-file -DgroupId=com.alibaba -DartifactId=fastjson -Dversion=1.1.37 -Dpackaging=jar -Dfile=C:\my_java\授课资料\资料：maven【高级】\安装第三方jar包\fastjson-1.1.37.jar
+
+
+--安装第三方jar包到私服
+
+--在settings配置文件中添加登录私服第三方登录信息
+<server>
+<id>thirdparty</id>
+<username>admin</username>
+<password>admin123</password>
+</server>
+----进入jar包所在目录运行
+mvn deploy:deploy-file -DgroupId=com.alibaba -DartifactId=fastjson -Dversion=1.1.37 -Dpackaging=jar -Dfile=fastjson-1.1.37.jar -Durl=http://localhost:8081/nexus/content/repositories/thirdparty/ -DrepositoryId=thirdparty
+----打开cmd直接运行
+mvn deploy:deploy-file -DgroupId=com.alibaba -DartifactId=fastjson -Dversion=1.1.37 -Dpackaging=jar -Dfile=C:\my_java\授课资料\资料：maven【高级】\安装第三方jar包\fastjson-1.1.37.jar -Durl=http://localhost:8081/nexus/content/repositories/thirdparty/ -DrepositoryId=thirdparty
