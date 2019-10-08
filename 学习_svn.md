@@ -20,9 +20,10 @@ tortoisesvn client
 
 	export不受版本控制
 	check out 受版本控制
-	
+
 Trunk 主要代码
 Breanches 分支代码
 	Project+日期+功能点
 Tags 发布版本
 	Project+版本号
+
