@@ -27,3 +27,10 @@ Breanches 分支代码
 Tags 发布版本
 	Project+版本号
 
+# AdminLTE
+
+wrapper包住了body下的所有代码
+.main-header里是网站的logo和导航栏的代码
+.main-sidebar里是用户面板和侧边栏菜单的代码
+.content-wrapper里是页面的页面和内容区域的代码 .main-footer里是页脚的代码
+.control-sidebar里是页面右侧侧边栏区域的代码
