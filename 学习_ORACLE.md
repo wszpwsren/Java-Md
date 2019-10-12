@@ -27,3 +27,23 @@ autoextend on
 next 10m;
 ```
 
+delete from person;
+	删除全部数据
+drop table person ;
+	删除表
+truncate table person ;
+	删除全部数据（较快）（带有suo）
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
