@@ -86,14 +86,96 @@ scott，密码tiger
 						end
 	from emp e;
 	
+oracle专用条件表达式
+	select e.name.
+		decode(e.name,
+			'smith','1'
+				'alen','2'
+					'ss')中文名//"中文名"
+	from emp e;
 	
+多行函数（聚合函数）
+select count(1) from emp;//count主键
+//sum（sal）
+//max（sal）
+//min（sal）
+//avg（sal）
+
+分组查询
+	//分组查询中，出现在group by 后面的原始列，才能出现在select后
+	//（只能使用聚合函数）
+	// 聚合函数有一个特性，会将多行记录转为单行
+select e.deptno,avg(e.sal) --e.ename
+from emp e
+group by e.deptno
 	
+selcet e.deptno,avg(e.sal)  asal
+from emp e
+group by e.deptno
+having avg(e.sal)//asal>2000
+	//所有条件都不能使用别名来判断
+	//条件的优先级大于select
 	
+笛卡尔积
+	select * from emp e,dept d;
+内连接
+	select * from emp e innner join dept d on e.deptno = d.deptno;
+外连接
+	select * from emp e right join dept d on e.deptno=d.deptno;
+oracle专用外连接
+	select * from emp e, dept d where e.deptno(+) = d.deptno;右外
+自链接	
+	select e1.ename,e2.ename from emp e1，emp e2 where e1.mgr = e2.empno;
+子查询
+	子查询返回一个值
+	select * from emp where sal in //=
+		(selcet sal from emp where ename='scott')
+	子查询返回一个集合
+	select * from emp where sal in
+		(select sal from emp where deptno=10)
+	子查询返回一张表
+	select  t.deptno,t.msal,e.name,d.dname
+	from (
+	select deptno,min(sal) msal
+	from emp
+	group by deptno;
+	) t,emp e,dept d
+	where t.deptno = e.deptno
+	and t.msal = e.sal
+	and e.deptno =d.deptno;
 	
+oracle中的分页
+	rownum行号：select操作每查询一条记录，就会在该行上加一个行号，
+	行号从1开始递增
+	排序操作会影响rownum的顺序
+	select * from(
+		select rownum rn,t.* from（
+			select rownum,e.* from emp e  order by e.sal desc） t
+	where rownum<11) tt where rn>5
 	
+视图
+	视图是提供一个查询的窗口，所有数据来自原表
+	create view v_emp as select ename,job from emp with read only
 	
+	视图可以屏蔽掉一些敏感信息
+	视图可以保证总部和分部的数据及时统一
 	
+索引
+	索引就是在表的列上构建一个二叉树
+	达到提高查询效率的目的，会影响增删改的效率
 	
-	
+	单列索引
+		创建
+		create index idx_ename on emp(ename)
+		单列索引触发条件
+			查询条件必须是索引列中的原始值
+			//单行函数，模糊查询会影响索引的触发
+	复合索引
+		create index idx_ename_job on emp(ename,job)
+		复合索引触发条件
+		复合索引中第一列为优先检索列
+		如果需要触发复合索引，必须包含有优先检索列中的原始值
+		如果只含优先检索列，触发单列索引
+		//or关键字不触发索引（查询个数）
 	
 	
