@@ -100,6 +100,8 @@ ${pageContext.request.contextPath}
 <c:forEach items="${pageInfo.list}" var="orders">
 ```
 
+pagehelper 将数据封装进.list对象中
+
 ## 页码处理
 
 <div class="box-tools pull-right">
@@ -131,8 +133,9 @@ ${pageContext.request.contextPath}
 	​		location.href = "${pageContext.request.contextPath}/orders/findAll.do?page=1&size="+pageSize;
 	  }
 	```
-	
-	
+
+
+​	
 
 # Spring Security
 
@@ -164,7 +167,7 @@ spring security
 		该集合的泛型为simpleGrantedAuthority
 		（ROLE_USER）
 
-
+FilterChainProxy
 
 
 
