@@ -169,15 +169,11 @@ spring security
 
 FilterChainProxy
 
+结果集封装（bean/@result）
 
+选择查询 sql语句/@result
 
-
-
-
-
-
-
-
+查询逻辑
 
 
 
