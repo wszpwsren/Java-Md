@@ -177,6 +177,96 @@ FilterChainProxy
 
 
 
+# 权限控制
+
+## 方法级
+JSR250注解
+	spring security 中
+		<security:global-method-security jsr250-annotations="enabled"/>
+	Controller方法上指定注解
+		@RolesAllowed
+	Pom中导入javax.annotation/jsr250
+	
+@secured注解
+    spring security 中
+        <security:global-method-security secured-annotations="enabled"/>
+    Controller方法上指定注解
+    	@Secured("ROLE_ADMIN")
+    		//springsecurity中需要添加role_前缀
+    		//security提供的注解
+支持表达式注解
+	spring security 中
+		<security:global-method-security pre-post-annotations="enabled"/>
+	Controller方法上指定注解
+		
+		@PreAuthorize
+			方法调用前，基于表达式结果限制方法访问
+		@PostAuthorize
+			允许调用方法，但是表达式结果为false，则抛出安全性异常
+		@PostFilter
+			允许方法调用，但按照表达式来过滤方法的结果
+		@PreFilter
+			允许方法调用，但必须在进入方法之前过滤输入值
+		
+​    
+​     Spring Security允许我们在定义URL访问或方法访问所应有的权限时使用Spring EL表达式，在定义所需的访问权限时如果对应的表达式返回结果为true则表示拥有对应的权限，反之则无。Spring Security可用表达式对象的基类是SecurityExpressionRoot，其为我们提供了如下在使用Spring EL表达式对URL或方法进行权限控制时通用的内置表达式。
+
+表达式					描述
+hasRole([role])	当前用户是否拥有指定角色。
+hasAnyRole([role1,role2])	多个角色是一个以逗号进行分隔的字符串。如果当前用户拥有指定角色中的任意一个则返回true。
+hasAuthority([auth])	等同于hasRole
+hasAnyAuthority([auth1,auth2])	等同于hasAnyRole
+Principle	代表当前用户的principle对象
+authentication	直接从SecurityContext获取的当前Authentication对象
+permitAll	总是返回true，表示允许所有的
+denyAll	总是返回false，表示拒绝所有的
+isAnonymous()	当前用户是否是一个匿名用户
+isRememberMe()	表示当前用户是否是通过Remember-Me自动登录的
+isAuthenticated()	表示当前用户是否已经登录认证成功了。
+isFullyAuthenticated()	如果当前用户既不是一个匿名用户，同时又不是通过Remember-Me自动登录的，则返回true。
 
 
 
+
+
+## 页面标签级
+	pom导包
+		spring-security-taglibs
+	页面导入
+		<%@taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+		
+	使用
+	authentication
+		用于获取认证对象（操作的用户信息）
+	authorize
+		用户控制页面上标签的显示
+	accesscontrollist
+		用于鉴定acl权限
+	
+	<security:authentication property="principal.username">
+	用户获取用户名，注意principal
+	
+	<security:authorize access="hasRole('ADMIN')">
+	用于指定查看权限
+	需要将审查元素框在选择范围内
+	
+	<!-- 配置监听器，监听request域对象的创建和销毁的 -->
+	获取ip地址（获取request对象）
+  <listener>
+    <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+  </listener>
+	
+	String ip = request.getRemoteAddr();
+	
+	maven中javax.servlet的scope需要修改？
+	compile/provided？
+	
+	//获取用户
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = user.getUsername();
+	
+	
+	
+	
+	
+	
