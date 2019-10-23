@@ -36,3 +36,40 @@
 	接口继承Mapper<User>
 整合事务
 	添加Transactional注解
+
+ConfigurationProperties：属性读取类
+
+EnableConfigurationProperties (属性读取类.class)
+
+
+
+## thymeleaf
+
+jsp-》servlet-》tomcatservlet容器-》解析
+
+
+
+
+
+# SpringCloud
+
+## 架构
+垂直拆分
+水平拆分
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
