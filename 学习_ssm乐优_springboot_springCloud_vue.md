@@ -56,19 +56,60 @@ jsp-》servlet-》tomcatservlet容器-》解析
 ## 架构
 垂直拆分
 水平拆分
+分布式
+	方便水平扩展
+	方便单独优化
+	解耦
+	提高并发量
+	
+	增加维护成本
+	重复开发
+		SOA面向服务架构
+			由注册中心及组件组成
+			微服务架构
+				微服务每一个服务对应唯一的业务，单一职责
+				拆分粒度小
+				面向服务：对外暴漏Rest风格的接口（url路径式接口），不限定服务的语言及技术			
 
+微服务框架
+	springcloud
+	dubbo
+	
+RPC/RMI
+	Rrmote Produce Call
+	自定义数据格式
+	传输效率高
+HTTP
+	规定了数据传输的格式
 
+Spring RestTemplate
+对http客户端进行了封装，实现了json的序列化和饭序列化
 
+## Eureka
 
+注册中心
 
+## Zuul
 
+网关，提供路由，访问过滤
 
+## Ribbon
 
+负载均衡
 
+## Feign
 
+服务调用，集成Ribbon
 
+## Hystrix
 
+容错管理组件，实现断路器模式
 
+## 版本
+
+rail/sr/小版本
+
+Finchley基于sb2.0.x
 
 
 
