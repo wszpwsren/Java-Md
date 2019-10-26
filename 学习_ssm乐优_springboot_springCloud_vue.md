@@ -88,7 +88,16 @@ Spring RestTemplate
 ## Eureka
 
 注册中心
-
+	
+	@EnableEurekaServer//启用eureka服务器
+	yml：
+		spring:
+  application:
+    name: k-eureka #将来会作为微服务的名称注入到eureka容器中
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:${server.port}/eureka
 ## Zuul
 
 网关，提供路由，访问过滤
@@ -111,6 +120,9 @@ rail/sr/小版本
 
 Finchley基于sb2.0.x
 
+## 使用步骤
 
-
+​	1、引入组件启动器
+	2、覆盖默认配置
+	3、在引导类上添加注解，开启相关组件
 
