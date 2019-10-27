@@ -98,6 +98,13 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:${server.port}/eureka
+
+心跳机制
+	renew服务续约
+	客户端拉取服务列表
+
+
+
 ## Zuul
 
 网关，提供路由，访问过滤
@@ -123,6 +130,6 @@ Finchley基于sb2.0.x
 ## 使用步骤
 
 ​	1、引入组件启动器
-	2、覆盖默认配置
-	3、在引导类上添加注解，开启相关组件
+​	2、覆盖默认配置
+​	3、在引导类上添加注解，开启相关组件
 
