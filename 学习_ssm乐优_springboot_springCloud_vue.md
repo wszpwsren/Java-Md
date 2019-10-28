@@ -101,23 +101,69 @@ eureka:
 
 心跳机制
 	renew服务续约
+		由服务提供者维持
+		间隔时间30s，过期时间90s
+		lease-renewal-interval-in-seconds
+		lease-expiration-duration-in-seconds
 	客户端拉取服务列表
-		DiscoveryClient对象中
+		拉取至本地
+		每30s拉取一次
+		registry-fetch-interval-seconds
+    	DiscoveryClient对象中
 		拉取服务
-
-
+	服务正常关闭操作时
+		触发一个服务下线的REST请求给server
+	失效剔除
+		每60秒扫描一次
+		eviction-interval-timer-in-ms
+		过期时间90s
+	eureka自我保护机制
+		关闭
+			enable-self-preservation: false
+高可用的eureka
+	服务器相互注册（1->2,2->3,3->1)
+	
+注册双重map
+	map<serviceId,map<serviceInstancename,InstanceObject>>
 
 ## Zuul
 
 网关，提供路由，访问过滤
 
 ## Ribbon
-
 负载均衡
+
+配置服务提供者地址列表，自动进行负载均衡
+eureka集成了ribbon
+
+启动：
+
+```
+	@Bean
+    @LoadBalanced
+    public RestTemplate restTemplate(){
+        return new RestTemplate();
+    }
+```
+
+springboot 测试
+	@SpringBootTest
+    @RunWith（SpringRunner.class）
+默认访问策略
+	轮询
+	
+
+```
+
+service-provider:
+  ribbon: NFLoadBalancerRuleClassName:com.netflix.loadbalancer.RandomRule
+```
 
 ## Feign
 
 服务调用，集成Ribbon
+
+
 
 ## Hystrix
 
