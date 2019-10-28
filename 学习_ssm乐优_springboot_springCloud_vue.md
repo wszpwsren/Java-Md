@@ -102,6 +102,8 @@ eureka:
 心跳机制
 	renew服务续约
 	客户端拉取服务列表
+		DiscoveryClient对象中
+		拉取服务
 
 
 
