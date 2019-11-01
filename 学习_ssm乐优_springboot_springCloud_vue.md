@@ -129,6 +129,10 @@ eureka:
 ## Zuul
 
 网关，提供路由，访问过滤
+	所有请求通过zuul-》consumer，进行拦截/权限控制
+	【服务无状态】为了保证对外服务的安全性，我们需要实现对服务访问的权限控制，而开放服务的权限控制机制会贯穿（全部服务实现权限控制）并污染开放服务的业务逻辑
+		需要考虑接口访问的权限控制
+	通过服务网关统一向外提供rest api时，提供服务路由、负载均衡、权限控制
 
 ## Ribbon
 负载均衡
@@ -162,7 +166,12 @@ service-provider:
 ## Feign
 
 服务调用，集成Ribbon
-
+	引入openFeign启动器
+	feign.hystrix.enable=true，开启feign熔断
+	引导类上@EnableFeignClients（client）
+	创建接口，在接口添加@FeignClient（value=“服务id”,fallback=实现类.class）
+	接口中定义一些方法，书写方式与controller类似
+	创建熔断类，实现feign接口，实现熔断方法
 
 
 ## Hystrix
