@@ -134,6 +134,19 @@ eureka:
 		需要考虑接口访问的权限控制
 	通过服务网关统一向外提供rest api时，提供服务路由、负载均衡、权限控制
 
+
+
+zuul:
+  routes:
+    service-provider: #路由名称,习惯上为服务名
+      path: /service-provider/**
+      // url: http://localhost:8082 通过路径路由，不常用
+      serviceId: service-provider 通过服务名路由
+
+​	//service-provider: /service-provider/** #第三种路由方式，通过直接写路径路由
+
+第四种，默认路由方式，路由名称为服务名
+
 ## Ribbon
 负载均衡
 
