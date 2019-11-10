@@ -133,8 +133,24 @@ eureka:
 	【服务无状态】为了保证对外服务的安全性，我们需要实现对服务访问的权限控制，而开放服务的权限控制机制会贯穿（全部服务实现权限控制）并污染开放服务的业务逻辑
 		需要考虑接口访问的权限控制
 	通过服务网关统一向外提供rest api时，提供服务路由、负载均衡、权限控制
-
-
+	配置zuul时，通过zuul.prefix： /api 保证通过网关来访问
+zuul过滤器
+	izuulfilter 祖接口
+		shouldFilter
+			true/false
+		run
+			业务逻辑
+	zuulfilter 抽象实现
+		filterType
+			pre	路由前执行过滤器
+			route 路由过程中执行过滤器
+				完成后进行路由分发
+			post 路由完成后执行过滤器
+			error 路由错误执行过滤器
+		![1573383418355](C:\Users\feketerigo\AppData\Roaming\Typora\typora-user-images\1573383418355.png)
+		filterOrder
+			int越小优先级越高
+	
 
 zuul:
   routes:
@@ -203,3 +219,69 @@ Finchley基于sb2.0.x
 ​	2、覆盖默认配置
 ​	3、在引导类上添加注解，开启相关组件
 
+
+SpringCloud-在springboot基础上构建的微服务框架
+	eureka
+		引入服务端启动器：eureka-server
+		添加配置
+			spring.application.name服务名
+			eureka.client.server-url.defaultZone http://localhost:10086/eureka
+			eureka.server.eviction-internal-timer-in-ms 剔除无效连接的间隔时间
+			eureka.server.enable-self-preservation 关闭自我保护
+			@EnableEurekaServer 开启eureka服务端
+			
+		引入客户端启动器：eureka-client
+		添加配置
+			spring.application.name 服务名
+			eureka.client.server-url.defaultZone http://localhost:10086/eureka
+			eureka.instance.lease-renewal-internal-in-seconds 心跳时间
+			eureka.instance.lease-expiration-duraion-in-seconds 过期时间
+			eureka.client.register-with-eureka 是否注册，默认
+			eureka.client.fetch-register 是否拉取服务列表，默认
+			eureka.client.registry-fetch-interval-seconds 拉取服务的间隔时间
+		@EnableDiscoveryClient
+		
+		Ribbon
+		eureka\feign\zuul已集成
+		配置负载均衡策略 <服务名>.ribbon.NFloadBalancerRuleClassName 
+		
+		hystrix
+			降级
+				引入启动器
+				添加配置，超时时间
+				@EnableCircuitBreaker
+				代码
+					返回值和参数列表与被熔断方法一致,被熔断方法@HystrixCommand（局部）
+					返回值和被熔断方法（全部）一致，无参数,类上@DefaultProperties（defaultFallback="全局熔断方法名"）,被熔断方法@HystrixCommand
+			熔断
+				多次降级
+		feign
+			集成hibbon、hystrix
+			引入feign启动器
+			feign.hystrix.enable=true
+			@EnableFeignClients
+			代码	
+				定义一个接口
+	            @FeignClients（value="服务名",fallback=熔断类.class）
+	            方法上使用的注解都是springMVC的注解
+		Zuul
+			@EnableZuulProxy
+			自定义过滤器
+
+
+​	
+# 电商
+
+
+​		
+​	
+​	
+​	
+​	
+​	
+​	
+​	
+​	
+​	
+​	
+​	
