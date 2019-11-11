@@ -230,58 +230,77 @@ SpringCloud-在springboot基础上构建的微服务框架
 			eureka.server.enable-self-preservation 关闭自我保护
 			@EnableEurekaServer 开启eureka服务端
 			
-		引入客户端启动器：eureka-client
-		添加配置
-			spring.application.name 服务名
-			eureka.client.server-url.defaultZone http://localhost:10086/eureka
-			eureka.instance.lease-renewal-internal-in-seconds 心跳时间
-			eureka.instance.lease-expiration-duraion-in-seconds 过期时间
-			eureka.client.register-with-eureka 是否注册，默认
-			eureka.client.fetch-register 是否拉取服务列表，默认
-			eureka.client.registry-fetch-interval-seconds 拉取服务的间隔时间
-		@EnableDiscoveryClient
-		
-		Ribbon
-		eureka\feign\zuul已集成
-		配置负载均衡策略 <服务名>.ribbon.NFloadBalancerRuleClassName 
-		
-		hystrix
-			降级
-				引入启动器
-				添加配置，超时时间
-				@EnableCircuitBreaker
-				代码
-					返回值和参数列表与被熔断方法一致,被熔断方法@HystrixCommand（局部）
-					返回值和被熔断方法（全部）一致，无参数,类上@DefaultProperties（defaultFallback="全局熔断方法名"）,被熔断方法@HystrixCommand
-			熔断
-				多次降级
-		feign
-			集成hibbon、hystrix
-			引入feign启动器
-			feign.hystrix.enable=true
-			@EnableFeignClients
-			代码	
-				定义一个接口
-	            @FeignClients（value="服务名",fallback=熔断类.class）
-	            方法上使用的注解都是springMVC的注解
-		Zuul
-			@EnableZuulProxy
-			自定义过滤器
+
+​	引入客户端启动器：eureka-client
+​	添加配置
+​		spring.application.name 服务名
+​		eureka.client.server-url.defaultZone http://localhost:10086/eureka
+​		eureka.instance.lease-renewal-internal-in-seconds 心跳时间
+​		eureka.instance.lease-expiration-duraion-in-seconds 过期时间
+​		eureka.client.register-with-eureka 是否注册，默认
+​		eureka.client.fetch-register 是否拉取服务列表，默认
+​		eureka.client.registry-fetch-interval-seconds 拉取服务的间隔时间
+​	@EnableDiscoveryClient
+​	
+​	Ribbon
+​	eureka\feign\zuul已集成
+​	配置负载均衡策略 <服务名>.ribbon.NFloadBalancerRuleClassName 
+​	
+​	hystrix
+​		降级
+​			引入启动器
+​			添加配置，超时时间
+​			@EnableCircuitBreaker
+​			代码
+​				返回值和参数列表与被熔断方法一致,被熔断方法@HystrixCommand（局部）
+​				返回值和被熔断方法（全部）一致，无参数,类上@DefaultProperties（defaultFallback="全局熔断方法名"）,被熔断方法@HystrixCommand
+​		熔断
+​			多次降级
+​	feign
+​		集成hibbon、hystrix
+​		引入feign启动器
+​		feign.hystrix.enable=true
+​		@EnableFeignClients
+​		代码	
+​			定义一个接口
+​            @FeignClients（value="服务名",fallback=熔断类.class）
+​            方法上使用的注解都是springMVC的注解
+​	Zuul
+​		@EnableZuulProxy
+​		自定义过滤器
 
 
 ​	
 # 电商
 
+传统项目：
+	需求方为公司内部
+互联网项目：
+	需求方为外部
+技术特点
+	技术范围广，高并发（分布式、静态化、缓存、异步并发、池、队列），高可用（集群、负载均衡、限流、降级、熔断），数据量大，业务复杂，数据安全
 
-​		
+saas software as a service
+	提供商为企业搭建信息化所需的所有网络设施及软件	
+soa
+	面向服务架构
+RPC remote procedure call
+	远程过程调用
+RMI remote method invocation
+	远程方法调用	
+
+## 开发过程
+
+​	产品经理-需求设计书》技术主管-评审》开发评估》api文档》ui开发、后端开发》测试》上线
+​	![1525703759035](F:\BaiduYunDownload\乐优商城-11月版\leyou\day04-项目搭建及es6语法\笔记\assets\1525703759035.png)
 ​	
-​	
-​	
-​	
-​	
-​	
-​	
-​	
-​	
-​	
+
+## 后台管理系统
+
+​	商品管理、销售管理、用户管理、权限管理、统计
+​	前后端分离开发，后台系统通过Vuejs搭建出单页应用
+
+## 前台门户系统
+	
+
 ​	
