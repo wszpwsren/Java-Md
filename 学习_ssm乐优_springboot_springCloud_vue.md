@@ -302,5 +302,88 @@ RMI remote method invocation
 
 ## 前台门户系统
 	
+	Thymeleaf模板结合vuejs,储于seo优化的考虑，不采用单页应用
+	SEO
+		搜索引擎优化
+	前台后台共享相同的微服务集群
+		商品、搜索、订单、购物车、用户中心、eureka、zuul等
+	
+js es6
+fastdfs 文件管理
+mycat 数据库中间件
+## ECMAScript6 es6
+	可以用来编写复杂的大型程序
+	var：变量越界
+		可以作用于作用域以外
+	let：es6变量
+		存在作用域
+	const；常量		
+	includes（）
+	startwith（）
+	endswith（）
+	const ss= `
+		hello
+		es6
+		hello
+	`
+		`（左上角）,可以定义多行字符串
+	解构表达式：
+		const arr = [10,20,30]
+		const [x,y,z]=arr
+		x
+		y
+		let person1 = {name="1",age=1};
+		const{name:a,age:b} = person1
+		a
+		b
+	函数优化
+		function f1(a,b = 2/*es6*/)
+	箭头函数（lambda）
+		()=>{}
+	解构加箭头
+		const p = {name:"1",age:3}
+		const func3 = ({name})=>console.log(name);
+		func3(p);
+	map()函数
+		接收一个函数，将原数组的所有元素用这个函数处理后返回新数组
+		let arr = [10,20,30];
+		let arr2 = arr.map(a=>a*10);
+	reduce
+		接收一个函数和一个初始值
+		函数参数接收两个参数：
+			第一个参数是上一次reduce处理的结果
+			第二个参数是数组中要处理的下一个元素
+			//遍历
+	对象扩展
+		keys(obj)：获取对象的所有key形成的数组
+			Object.keys(person)
+		values（obj）
+		entries（obj）：获取key和value形成的二维数组
+		assign（dest,....src）；将多个src对象的值拷贝到dest中
+	数组扩展
+		let arr = [10,20,2,30,3]
+		arr.find(a=>a==30)
+			find参数为一个函数
+		arr.findIndex(a=>a==30)
+		arr.includes(元素)
 
-​	
+## Vue
+	Node.js
+		基于事件循环的异步IO框架
+		单线程运行
+		js可以编写后台代码
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
