@@ -301,13 +301,13 @@ RMI remote method invocation
 ​	前后端分离开发，后台系统通过Vuejs搭建出单页应用
 
 ## 前台门户系统
-	
+
 	Thymeleaf模板结合vuejs,储于seo优化的考虑，不采用单页应用
 	SEO
 		搜索引擎优化
 	前台后台共享相同的微服务集群
 		商品、搜索、订单、购物车、用户中心、eureka、zuul等
-	
+
 js es6
 fastdfs 文件管理
 mycat 数据库中间件
@@ -368,22 +368,201 @@ mycat 数据库中间件
 		arr.includes(元素)
 
 ## Vue
-	Node.js
-		基于事件循环的异步IO框架
-		单线程运行
-		js可以编写后台代码
+Node.js
+	基于事件循环的异步IO框架
+	单线程运行
+	js可以编写后台代码
+	
+vue
+	npm init -y
+		生成package.json
+			配置文件信息
+	npm install vue --save
+		生成node_modules文件夹
+	el：“#app”
+		代表对应的html模板
+	双向渲染绑定
+		<input type="text" v-model="num">
+		双向渲染绑定方法
+		methods:{
+            incr(){
+                this.num++;
+                }
+        <input type="button" value="点我" v-on:click = "incr">
+	每个vue应用都是通过new vue创建的
+		存在各种属性
+			el：element 选择器
+			data：数据模型
+				vue实例创建时，会尝试获取data中定义的所有属性，并进行视图渲染，并进行监视（响应式系统）
+			methods
+	
 
+钩子函数 hf
+	vue实例的生命周期
+		创建实例、初始化、装载模板、渲染模板等
 
+​		new vue（）
+​		init event&lifecycle
 
+		##### 				hf beforeCreate
+​		init injections & reactivity
+​		##### 				hf created
+​		has el？
+​		has template？
+​		complie template and render
 
+		##### 				hf beforeMount
+​		create vm.$el
+​		##### 		hf mounted(渲染？)
+​		##### 		cycle hf beforeUpdated hf updatred
+​		##### hf beforeDestory
 
+​		Teardown watchers,child,componets,listeners
 
+​		#### hf destoryed
 
+		created() {
+	        //加载数据,ajax到后台微服务拿取数据
+	        
+	    }
+指令directives
+	指令是带有v- 前缀的特性，预期值是单个js表达式（v-on）
+	当表达式的值改变时，将其产生的连带影响，响应于dom
+插值表达式
+	{{xxx}}
+	支持js，支持js内置函数（必须有返回值）
+	可以直接获取vue中定义的数据或函数
+	使用函数时需要使函数表达（sum（））
+	可以使用v-text和x-html替代
+v-text
+	<span v-text = "name">undefined</span>
 
+v-model
+	只能在双向绑定中使用（表单）
+	input、select、checkbox、radio、components
+	
+	<input type="checkbox" value="ios" v-model="language">ios
+	{{language.join(",")}}
+	多checkbox对应一个model时为数组
+	单checkbox对应一个model时为bool
+	radio对应input的value
+	text、textarea对应model为字符串
+	select单选对应字符串，多选对应数组
 
+v-on
+	v-on：事件名=“js或函数名”
+	可以简写为@
+		@click=“add”
+	事件修饰符
+		@contextMenu="incr"  右键点击
+			 incr(ev){
+             	ev.preventDefault();
+             	//防止默认事件触发
+		但是vue提倡不使用dom操作
+		 	@contextMenu.prevent="incr($event)"
+			//防止默认事件触发
+		.stop:阻止事件冒泡到父元素
+        .prevent:阻止默认事件发生
+        .capture：使用事件捕获模式
+        .self：仅限元素自身触发事件
+        .once：单次
+    按键修饰符
+    	@keyup 键弹起事件
+    	@keyup.13 回车弹起事件
+    	//@keyup.enter
+    	@keyup.65 a弹起事件
+    	@keyup.65.13 组合按键
+v-for
+	v-for=“item in items”
+	<li v-for="(user,index) in users":key="index">{{user.name}}-{{index}}</li>
+	
+v-if
+    v-if=“bool表达式”
+    如果false则不渲染
+    	v-else-if
+    	v-else
 
+<span v-if="random>0.75">\>0.75</span>
+<span v-else-if="random<0.5">\>0.5</span>
+<span v-else>else</span>
+<input type="button" v-model="random" @click="random=Math.random(1)">
+v-if、v-else-if、v-else之间不能有[任何]标签
 
+v-if，v-for间存在优先级
+<ul>
+    <li v-if="index>=1" v-for="(user,index) in users" :key="index">{{user.name}}-{{index}}</li>
+</ul>
 
-
-
-
+v-show
+	v-show = “bool表达式”
+    如果false则将style调为display：none
+    	
+v-bind
+	为元素绑定属性值
+	<input type="button" v-bind:value="random" @click="random=Math.random(1)">
+    通常在样式中使用
+    <input type="button" v-bind:class="{active1:store<1}" @click="store--">
+    简写-：	
+    <input type="button" :class="{active1:store<1}" @click="store--">
+    
+计算属性
+	<div>{{new Date(birthday).getFullYear()+"年"+new Date(birthday).getMonth()+"月"+new Date(birthday).getDay()+"日"}}</div>
+	简化
+	<div>{{date1}}</div>
+	computed:{
+            date1(b){
+                return new Date(this.birthday).toLocaleDateString();
+            }
+        }
+    	//computed在methods之外
+    	//可以直接使用计算属性，该属性为一个属性（数据模型），而不是一个方法
+    
+    我们可以将同一函数定义为要给方法而不是计算属性，计算属性只有在它的相关依赖发生改变时才改变（然而缓存）
+	
+watch监听
+	监听方法名要和被监听的model同名
+	watch:{
+            search(newval,oldval){ 
+            }
+        }
+组件
+	//vue中，所有的vue实例都是组件
+	全局组件
+		会有一个专用目录存储vue全局组件
+		任何vue实例都可以使用全局组件
+		Vue.component("组件名",{实例对象})
+		
+		<div id="app">//父组件
+        <counter></counter>//子组件
+    	</div>
+    
+		Vue.component("counter",{
+        template: "<button @click='num++'>点击。{{num}}</button>",
+        data(){
+            return{
+                num:0
+            }
+        }
+    })
+	局部组件
+		<div id="app">
+        <component1></component1>
+    	</div>
+    	
+    	const component = {
+        template: "<div>???{{name}}</div>",
+        data() {
+            return {
+                name: "zhang"
+            }
+        }
+    }
+    	const app = new Vue({
+        el:"#app",
+        components:{
+            component1 : component
+        }
+    })
+    	//局部组件不能直接调用（不存在于vue域内），需要通过components：{实例名：组件名}进行调用
+    	
+组件通讯
