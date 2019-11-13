@@ -518,7 +518,7 @@ v-bind
     	//可以直接使用计算属性，该属性为一个属性（数据模型），而不是一个方法
     
     我们可以将同一函数定义为要给方法而不是计算属性，计算属性只有在它的相关依赖发生改变时才改变（然而缓存）
-	
+
 watch监听
 	监听方法名要和被监听的model同名
 	watch:{
@@ -532,39 +532,40 @@ watch监听
 		任何vue实例都可以使用全局组件
 		Vue.component("组件名",{实例对象})
 		
+
 		<div id="app">//父组件
-        <counter></counter>//子组件
-    	</div>
-    
+	    <counter></counter>//子组件
+		</div>
+	
 		Vue.component("counter",{
-        template: "<button @click='num++'>点击。{{num}}</button>",
-        data(){
-            return{
-                num:0
-            }
-        }
-    })
+	    template: "<button @click='num++'>点击。{{num}}</button>",
+	    data(){
+	        return{
+	            num:0
+	        }
+	    }
+	})
 	局部组件
 		<div id="app">
-        <component1></component1>
-    	</div>
-    	
-    	const component = {
-        template: "<div>???{{name}}</div>",
-        data() {
-            return {
-                name: "zhang"
-            }
-        }
-    }
-    	const app = new Vue({
-        el:"#app",
-        components:{
-            component1 : component
-        }
-    })
-    	//局部组件不能直接调用（不存在于vue域内），需要通过components：{实例名：组件名}进行调用
-    	
+	    <component1></component1>
+		</div>
+		
+		const component = {
+	    template: "<div>???{{name}}</div>",
+	    data() {
+	        return {
+	            name: "zhang"
+	        }
+	    }
+	}
+		const app = new Vue({
+	    el:"#app",
+	    components:{
+	        component1 : component
+	    }
+	})
+		//局部组件不能直接调用（不存在于vue域内），需要通过components：{实例名：组件名}进行调用
+
 组件通讯
 	父向子通讯 props//单向通讯
 		父组件使用子组件时，自定义属性（属性名任意，属性值为要传递的数据）
@@ -573,33 +574,35 @@ watch监听
         <counter :num1="num"></counter><!--num1为自定义属性名-->
     </div>
     
-	Vue.component("counter",{
-        template: "<button @click='num1++'>点击。{{num1}}</button>",
-        props: ["num1"]
-    })
-	
-		props验证
-			//没有约束力
-		props：{
-			num1:{
-				type:Number
-			}
-		}
-		
-			动静态传递
-				:num1="num"动态
-				:num1="0"动态
-				num2="num"静态（永远获取字符串）
-		
-		子向父传递
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+Vue.component("counter",{
+    template: "<button @click='num1++'>点击。{{num1}}</button>",
+    props: ["num1"]
+})
+
+​	props验证
+​		//没有约束力
+​	props：{
+​		num1:{
+​			type:Number
+​		}
+​	}
+​	
+​		动静态传递
+​			:num1="num"动态
+​			:num1="0"动态
+​			num2="num"静态（永远获取字符串）
+​	
+​	子向父传递
+
+
+​	
+​	
+​	
+​	
+​	
+​	
+​	
+​	
+​	
+​	
