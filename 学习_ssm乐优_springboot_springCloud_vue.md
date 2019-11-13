@@ -566,3 +566,40 @@ watch监听
     	//局部组件不能直接调用（不存在于vue域内），需要通过components：{实例名：组件名}进行调用
     	
 组件通讯
+	父向子通讯 props//单向通讯
+		父组件使用子组件时，自定义属性（属性名任意，属性值为要传递的数据）
+		子组件通过props接收父组件的数据，通过自定义属性的属性名进行调用
+	<div id="app">
+        <counter :num1="num"></counter><!--num1为自定义属性名-->
+    </div>
+    
+	Vue.component("counter",{
+        template: "<button @click='num1++'>点击。{{num1}}</button>",
+        props: ["num1"]
+    })
+	
+		props验证
+			//没有约束力
+		props：{
+			num1:{
+				type:Number
+			}
+		}
+		
+			动静态传递
+				:num1="num"动态
+				:num1="0"动态
+				num2="num"静态（永远获取字符串）
+		
+		子向父传递
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
