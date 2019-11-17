@@ -600,7 +600,26 @@ Vue.component("counter",{
 ​	
 vue-router
 	引入插件			
-
+	
+	 const router = new VueRouter({
+        routes:[{
+            path:"/login",//路由路径必须以/开头
+            component:loginForm
+        },{
+            path: "/register",
+            component:registerForm
+        }]
+    })
+    //使用router
+    const router = new VueRouter({
+        routes:[{
+            path:"/login",//路由路径必须以/开头
+            component:loginForm
+        },{
+            path: "/register",
+            component:registerForm
+        }]
+    })
 ​	
 ​	
 ​	
