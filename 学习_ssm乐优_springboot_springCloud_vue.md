@@ -598,9 +598,9 @@ Vue.component("counter",{
 
 
 ​	
-​	
-​	
-​	
+vue-router
+	引入插件			
+
 ​	
 ​	
 ​	
