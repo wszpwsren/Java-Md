@@ -597,32 +597,56 @@ Vue.component("counter",{
 ​	子向父传递
 
 
-​	
 vue-router
 	引入插件			
 	
 	 const router = new VueRouter({
-        routes:[{
-            path:"/login",//路由路径必须以/开头
-            component:loginForm
-        },{
-            path: "/register",
-            component:registerForm
-        }]
-    })
-    //使用router
-    const router = new VueRouter({
-        routes:[{
-            path:"/login",//路由路径必须以/开头
-            component:loginForm
-        },{
-            path: "/register",
-            component:registerForm
-        }]
-    })
-​	
-​	
-​	
-​	
-​	
-​	
+	    routes:[{
+	        path:"/login",//路由路径必须以/开头
+	        component:loginForm
+	    },{
+	        path: "/register",
+	        component:registerForm
+	    }]
+	})
+	//使用router
+	const router = new VueRouter({
+	    routes:[{
+	        path:"/login",//路由路径必须以/开头
+	        component:loginForm
+	    },{
+	        path: "/register",
+	        component:registerForm
+	    }]
+	})
+前端页面
+	页面为一个单一应用页面，只有一个页面index.html
+	其中只有一个空容器id=“app”
+	vue实例存在于main.js中
+	其中含有一个子组件App
+	//如果一个目录下只有一个js，且名为index.js，则可以通过文件夹名import
+	![1574067720530](C:\Users\feketerigo\AppData\Roaming\Typora\typora-user-images\1574067720530.png)
+
+package.json
+	devdependencies
+		开发依赖
+	dependencies
+		运行依赖
+	config
+		配置
+	dist
+		打包
+	src
+		源
+		.vue
+			将script和template分离
+		assets
+			资源文件
+		component
+			全局组件
+		static
+			静态
+
+​	Vuetify
+		基于vue的ui框架
+		//vue js框架
