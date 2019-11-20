@@ -648,7 +648,11 @@ package.json
 			静态
 
 ​	Vuetify
-		基于vue的ui框架
-		//elementui iview等
-		//vue js框架
-		//zui layui bootstrap -dom框架
+​		基于vue的ui框架
+​		//elementui iview等
+​		//vue js框架
+​		//zui layui bootstrap -dom框架
+
+# Nginx
+
+	web
