@@ -51,7 +51,7 @@ Docker命令
 					docker cp 文件路径 xxx：文件路径
 					docker cp xxx:文件路径 文件路径
 				目录挂载
-					docker run -di 宿主机目录:容器目录 --name=xxx repository：TAG
+					docker run -di -v 宿主机目录:容器目录 --name=xxx repository：TAG
 				查看容器ip地址
 					docker inspect xxx
 					//NetWorkSetting gateway
@@ -60,3 +60,56 @@ Docker命令
 					docker rm xxx
 				mysql部署
 					docker run -di --name=xxxxx -p 33306:3306 -e MYSQL_ROOT_PASSWORD=xxxxxx xxx
+	
+	## 迁移与备份
+		容器保存为镜像
+			docker commit mynginx mynginx_i
+		镜像备份
+			docker save -o mynginx.tar mynginx_i
+		镜像恢复与迁移
+			docker load -i mynginx.tar
+	## DockerFile
+		基于一个基础镜像构建一个新镜像的 命令及参数构成的脚本
+			FROM images——name：tag
+				使用的基础镜像
+			MAINTAINER user_name 
+				声明镜像的创建者
+			ENV key value
+				设置环境变量
+			RUN command
+				DockerFile命令
+			ADD source_dir/file dest_dir/file
+				自动解压复制
+			COPY source_dir/file dest_dir/file
+				自动复制
+			WORKDIR path_dir
+				设置工作目录（命令基础//相对路径）
+				
+			DockerFile必须为这个名字
+			
+			docker build -t=‘镜像名’ .（指定当前目录）
+	## Docker私有仓库
+		docker pull registry
+			拉取私有仓库镜像
+		docker run -di --name=registry -p 5000：5000 registry
+			启动私有仓库容器
+		ip：5000/v2/_catalog
+			{
+				"repositories"
+			}
+		私有仓库信任
+			vi /etc/docker/daemon.json
+			添加
+				"insecure-registries":["ip:5000"]
+			systemctl restart docker
+		上传至私有仓库
+			docker tag 【repository】 ip：5000/【repository】
+			push ip：5000/【repository】
+		
+		
+		
+		
+		
+		
+		
+		
