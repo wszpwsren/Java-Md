@@ -628,27 +628,28 @@ vue-router
 	![1574067720530](C:\Users\feketerigo\AppData\Roaming\Typora\typora-user-images\1574067720530.png)
 	
 	npm run dev //运行webpack服务器
-	
-    
+
+
+​    
 package.json
-	devdependencies
-		开发依赖
-	dependencies
-		运行依赖
-	config
-		配置
-	dist
-		打包
-	src
-		源
-		.vue
-			将script和template分离
-		assets
-			资源文件
-		component
-			全局组件
-		static
-			静态
+​	devdependencies
+​		开发依赖
+​	dependencies
+​		运行依赖
+​	config
+​		配置
+​	dist
+​		打包
+​	src
+​		源
+​		.vue
+​			将script和template分离
+​		assets
+​			资源文件
+​		component
+​			全局组件
+​		static
+​			静态
 
 ​	Vuetify
 ​		基于vue的ui框架
@@ -681,7 +682,7 @@ package.json
 				线程
 			
 		nginx -s load 重载配置
-		
+
 ## 项目开发
 	api文档先行
 	前端先行，后端基于前端的调用关系开发
@@ -698,14 +699,14 @@ package.json
 		persistence-api
 			spring data 使用的注解api
 			//在项目中导入即可
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+​	![img](https://upload-images.jianshu.io/upload_images/7896890-1273cfad7cda65ce.png?imageMogr2/auto-orient/strip|imageView2/2/w/1063/format/webp)
+​	
+​	Restful风格
+		开发中使用restful风格进行开发
+		//put=patch
+​	
+​	
+​	
+​	
+​	
