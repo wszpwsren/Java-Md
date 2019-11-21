@@ -626,7 +626,10 @@ vue-router
 	其中含有一个子组件App
 	//如果一个目录下只有一个js，且名为index.js，则可以通过文件夹名import
 	![1574067720530](C:\Users\feketerigo\AppData\Roaming\Typora\typora-user-images\1574067720530.png)
-
+	
+	npm run dev //运行webpack服务器
+	
+    
 package.json
 	devdependencies
 		开发依赖
@@ -655,4 +658,54 @@ package.json
 
 # Nginx
 
-	web
+	web服务器
+		web应用服务器
+			tomcat
+			resin
+			jetty
+		web服务器
+			apache
+			nginx
+			IIS
+		web服务器不能解析jsp等，只能处理js，html
+		web服务器的并发能力高于web应用服务器
+	反向代理
+		代理 ：通过客户端的配置，实现让一台服务器代理客户机，客户的请求交给代理服务器处理
+		反向代理：用一台服务器代理真实服务器，用户访问的是代理服务器
+			需要在nginx中配置反向代理规则，不同的请求交给不同的真实服务器处理
+	nginx 
+		nginx.conf
+			worker_processes 1;
+				单核
+			worker-connection:1024
+				线程
+			
+		nginx -s load 重载配置
+		
+## 项目开发
+	api文档先行
+	前端先行，后端基于前端的调用关系开发
+	
+	v-tree
+		自定义组件
+		全局组件（component）
+	### 数据结构
+		id bigint primary key
+		name varchar
+		parentid bigint //都为三级类目
+		isparent tinyint //作为布尔类型使用
+		
+		persistence-api
+			spring data 使用的注解api
+			//在项目中导入即可
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
