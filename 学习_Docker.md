@@ -52,6 +52,8 @@ Docker命令
 					docker cp xxx:文件路径 文件路径
 				目录挂载
 					docker run -di -v 宿主机目录:容器目录 --name=xxx repository：TAG
+				容器重启
+					docker restart
 				查看容器ip地址
 					docker inspect xxx
 					//NetWorkSetting gateway
