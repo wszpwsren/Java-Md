@@ -91,6 +91,7 @@ Docker命令
 ​		DockerFile必须为这个名字
 ​		
 ​		docker build -t=‘镜像名’ .（指定当前目录）
+
 ## Docker私有仓库
 ​	docker pull registry
 ​		拉取私有仓库镜像
