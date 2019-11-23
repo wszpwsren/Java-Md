@@ -703,8 +703,8 @@ package.json
 ​	![img](https://upload-images.jianshu.io/upload_images/7896890-1273cfad7cda65ce.png?imageMogr2/auto-orient/strip|imageView2/2/w/1063/format/webp)
 ​	
 ​	Restful风格
-		开发中使用restful风格进行开发
-		//put=patch
+​		开发中使用restful风格进行开发
+​		//put=patch
 ​	
 ​	
 ​	
