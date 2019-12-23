@@ -707,6 +707,50 @@ package.json
 ​		//put=patch
 ​	
 ​	
-​	
-​	
-​	
+
+## 	跨域问题
+	浏览器对js的同源策略的限制
+	限制访问同一域名下的地址
+	
+	解决
+		jsonp
+			只能get请求
+		nginx反向代理
+			需要nginx配置
+		cors
+			会产生额外请求
+
+## 后台开发需要确认的项
+	请求方式
+    	@GetMapping（） ，xxx
+​	请求路径
+		（“xxx”）
+	请求参数
+		@param
+	返回值
+		public xxx
+		
+## axios
+	相对jquery较小
+	Vue.prototype.#Http = axios
+	//全局封装
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
