@@ -722,35 +722,50 @@ package.json
 
 ## 后台开发需要确认的项
 	请求方式
-    	@GetMapping（） ，xxx
+		@GetMapping（） ，xxx
 ​	请求路径
-		（“xxx”）
-	请求参数
-		@param
-	返回值
-		public xxx
-		
+​		（“xxx”）
+​	请求参数
+​		@param
+​	返回值
+​		public xxx
+​		
 ## axios
 	相对jquery较小
 	Vue.prototype.#Http = axios
 	//全局封装
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+FastDFS
+
+​	正常文件上传
+​		MutipartFile为参数类型
+​		进行校检
+​		MutipartFile.transferTo(new File（）)方法进行保存
+​		
+​		FastDFS
+​			分布式文件系统
+​				存储很多机器,机器由
+​	
+
+## 	SPU/SKU
+
+​	spu:标准产品单位
+		一组具有共同属性的商品集
+	sku:库存量单位
+		spu商品集因不同属性产生的商品
+
+
+​	
+​	
+​	
+​	
+​	
+​	
+​	
+​	
+​	
+​	
+​	
+​	
+​	
+​	
